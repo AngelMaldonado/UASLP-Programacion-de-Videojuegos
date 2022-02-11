@@ -1,3 +1,4 @@
+
 # Programación de videojuegos
 
 Esta materia esta pensada para reforzar los conocimientos de las operaciones con matrices que tiene la librería *OpenGL* para la representación de gráficos 3D. Utilizando como objeto de estudio la creación de un videojuego.
@@ -43,7 +44,8 @@ Si *VS Code* no detecta la instancia del compilador de *MSYS2* se puede agregar 
 
 ## Ejercicios
 
-Los ejercicios serán editados y ejecutados utilizando la herramienta [VisualStudio Code](https://code.visualstudio.com/Download), en cada directorio de los ejercicios contendrán su correspondiente archivo **task.json** para que pueda ser ejecutado utilizando la librería previamente mencionada y pueda ser ejecutado con el depurador por defecto de *VisualStudio Code*. 
+Los ejercicios son editados y ejecutados utilizando la herramienta [VisualStudio Code](https://code.visualstudio.com/Download), en cada directorio de los ejercicios contiene su correspondiente archivo **task.json** dentro del directorio `.vscode` en donde se agrega en los argumentos de compilación `"args":[]` las librerías gráficas con las opciones: `"-lglfw3"`, `"-lopengl32"` y `"-lglu32"`.
+También, en el archivo `launch.json` la opción `"externalConsole:"` se cambia el valor a `true` para que puedan mostrarse en consola mensajes enviados por el código.
 
 ## Proyecto
 
