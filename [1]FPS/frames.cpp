@@ -1,183 +1,162 @@
 /******************************************
 *  Autor : Angel de Jesus Maldonado Juarez   
-*  Creado el : Vie Feb 04 2022
+*  Creado el : Vie Feb 11 2022
 *  Archivo : frames.cpp
 *  Descripcion : implementacion de FPS
 *******************************************/
 
-#include <GL/glu.h>
-#include <GL/glut.h>
-#include <time.h>
-#include <iostream>
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include <cstdio>
 #include "timer.h"
 
-using namespace std;
-
-// Factor de rotado
-GLfloat rotacion = 0.0;
-// Limite de FPS
-int FPS = 60;
-// Duracion de cada frame
-float durFrame = (1.0 / (float)FPS);
-// Declaracion del cronometro
-Timer* cronometro = Timer::Instance();
-
-// Cambia el factor de rotacion
-void spin()
+void controls(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-    // Actualiza el factor de rotacion
-    rotacion = rotacion + 0.05;
-    // Si se pasa de 360 se pone a 0
-    if(rotacion > 360)
-        rotacion = 0;
-
-    // Redibuja la ventana
-    glutPostRedisplay();
+    if(action == GLFW_PRESS)
+        if(key == GLFW_KEY_ESCAPE)
+            glfwSetWindowShouldClose(window, GL_TRUE);
 }
 
-// Dibuja un cubo en la escena
-void Cubo()
+GLFWwindow* initWindow(const int resX, const int resY)
 {
-    // Limpia el bufer de color y el bufer de profundidad
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // Selecciona la matriz de proyeccion
-    glLoadIdentity();
-
-    // Rota la escena
-    glRotatef(rotacion, 1, 1, 0);
-
-    //Multi-colored side - FRONT
-    glBegin(GL_POLYGON);
-
-    glColor3f( 1.0, 0.0, 0.0 );     glVertex3f(  0.5, -0.5, -0.5 );      // P1 is red
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f(  0.5,  0.5, -0.5 );      // P2 is green
-    glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5,  0.5, -0.5 );      // P3 is blue
-    glColor3f( 1.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is purple
-
-    glEnd();
-
-    // Purple side - RIGHT
-    glBegin(GL_POLYGON);
-
-    glColor3f( 1.0, 0.0, 0.0 );     glVertex3f(  0.5, -0.5, -0.5 );      // P1 is red
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f(  0.5,  0.5, -0.5 );      // P2 is green
-    glColor3f( 1.0, 0.0, 1.0 );     glVertex3f(  0.5,  0.5,  0.5 );      // P3 is purple
-    glColor3f( 1.0, 1.0, 1.0 );     glVertex3f(  0.5, -0.5,  0.5 );      // P4 is white
-
-    glEnd();
-
-    // White side - BACK
-    glBegin(GL_POLYGON);
-
-    glColor3f( 1.0, 1.0, 1.0 );     glVertex3f(  0.5, -0.5,  0.5 );      // P1 is white
-    glColor3f( 1.0, 0.0, 1.0 );     glVertex3f(  0.5,  0.5,  0.5 );      // P2 is purple
-    glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5,  0.5,  0.5 );      // P3 is blue
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f( -0.5, -0.5,  0.5 );      // P4 is green
-
-    glEnd();
-
-
-    // Green side - LEFT
-    glBegin(GL_POLYGON);
-
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f( -0.5, -0.5,  0.5 );      // P1 is green
-    glColor3f( 1.0, 1.0, 1.0 );     glVertex3f( -0.5,  0.5,  0.5 );      // P2 is white
-    glColor3f( 1.0, 0.0, 1.0 );     glVertex3f( -0.5,  0.5, -0.5 );      // P3 is purple
-    glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is blue
-
-    glEnd();
-
-    // Blue side - TOP
-    glBegin(GL_POLYGON);
-
-    glColor3f( 0.0, 0.0, 1.0 );     glVertex3f(  0.5,  0.5,  0.5 );      // P1 is blue
-    glColor3f( 1.0, 0.0, 1.0 );     glVertex3f(  0.5,  0.5, -0.5 );      // P2 is purple
-    glColor3f( 0.0, 1.0, 1.0 );     glVertex3f( -0.5,  0.5, -0.5 );      // P3 is white
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f( -0.5,  0.5,  0.5 );      // P4 is green
-
-    glEnd();
-
-    // Red side - BOTTOM
-    glBegin(GL_POLYGON);
-
-    glColor3f( 1.0, 0.0, 0.0 );     glVertex3f(  0.5, -0.5, -0.5 );      // P1 is red
-    glColor3f( 1.0, 1.0, 1.0 );     glVertex3f(  0.5, -0.5,  0.5 );      // P2 is white
-    glColor3f( 0.0, 1.0, 0.0 );     glVertex3f( -0.5, -0.5,  0.5 );      // P3 is green
-    glColor3f( 0.0, 0.0, 1.0 );     glVertex3f( -0.5, -0.5, -0.5 );      // P4 is blue
-
-    glEnd();
-}
-
-// Funcion de inicializacion del programa
-void inicializa()
-{
-    glClearColor(0, 0, 0, 1);
-    glColor3f(1, 0, 0);
-    // Habilita el z-bufer
-    glEnable(GL_DEPTH_TEST);
-}
-
-// Funcion de dibujado de la ventana
-void dibuja()
-{
-    /************************************************/
-    /*              𝙞𝙣𝙞𝙘𝙞𝙤 𝙙𝙚𝙡 𝙛𝙧𝙖𝙢𝙚
-    /***********************************************/
-    cronometro->Start();
-
-    // Dibuja un cubo
-    Cubo();
-    
-    cronometro->Tick();
-
-    /************************************************/
-    /*              𝙛𝙞𝙣 𝙙𝙚𝙡 𝙛𝙧𝙖𝙢𝙚
-    /***********************************************/
-    // Si el tiempo transcurrido es menor a lo que debe de durar el frame
-    if (cronometro->DeltaTime() < durFrame)
-        // Espera el tiempo que falta para que el frame se dibuje
-        cronometro->Wait(durFrame - cronometro->DeltaTime());
-
-    // Si el tiempo transcurrido es mayor o igual a lo que debe durar el frame
-    if (cronometro->DeltaTime() >= durFrame)
+    if(!glfwInit())
     {
-        // Mostrar los FPS
-        cout << "FPS: " << 1 / cronometro->DeltaTime() << " (" << cronometro->DeltaTime() << " ms)" << endl;
-        // Reiniciar el cronometro
-        cronometro->Reset();
+        fprintf(stderr, "Failed to initialize GLFW\n");
+        return NULL;
+    }
+    glfwWindowHint(GLFW_SAMPLES, 4); // 4x antialiasing
+
+    // Open a window and create its OpenGL context
+    GLFWwindow* window = glfwCreateWindow(resX, resY, "TEST", NULL, NULL);
+
+    if(window == NULL)
+    {
+        fprintf(stderr, "Failed to open GLFW window.\n");
+        glfwTerminate();
+        return NULL;
     }
 
-    // Actualiza el buffer de color
-    glutSwapBuffers();
+    glfwMakeContextCurrent(window);
+    glfwSetKeyCallback(window, controls);
+
+    // Get info of GPU and supported OpenGL version
+    printf("Renderer: %s\n", glGetString(GL_RENDERER));
+    printf("OpenGL version supported %s\n", glGetString(GL_VERSION));
+
+    glEnable(GL_DEPTH_TEST); // Depth Testing
+    glDepthFunc(GL_LEQUAL);
+    glDisable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    return window;
 }
 
-int main(int c, char **v)
+void drawCube()
 {
-    // Inicializacion de OpenGL
-    glutInit(&c, v);
+    GLfloat vertices[] =
+    {
+        -1, -1, -1,   -1, -1,  1,   -1,  1,  1,   -1,  1, -1,
+        1, -1, -1,    1, -1,  1,    1,  1,  1,    1,  1, -1,
+        -1, -1, -1,   -1, -1,  1,    1, -1,  1,    1, -1, -1,
+        -1,  1, -1,   -1,  1,  1,    1,  1,  1,    1,  1, -1,
+        -1, -1, -1,   -1,  1, -1,    1,  1, -1,    1, -1, -1,
+        -1, -1,  1,   -1,  1,  1,    1,  1,  1,    1, -1,  1
+    };
 
-    // Posicion de la ventana
-    glutInitWindowPosition(250, 50);
-    /* Bufer de color
-     * Bufer de dibujado:
-        GLUT_SINGLE -> 2D
-        GLUT_DOUBLE -> 3D
-     * Bufer de profundidad
-        (maneja las coordenadas en Z)
-    */
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    // Crea la ventana
-    glutCreateWindow("Ejercicio 1 | FPS");
+    GLfloat colors[] =
+    {
+        0, 0, 0,   0, 0, 1,   0, 1, 1,   0, 1, 0,
+        1, 0, 0,   1, 0, 1,   1, 1, 1,   1, 1, 0,
+        0, 0, 0,   0, 0, 1,   1, 0, 1,   1, 0, 0,
+        0, 1, 0,   0, 1, 1,   1, 1, 1,   1, 1, 0,
+        0, 0, 0,   0, 1, 0,   1, 1, 0,   1, 0, 0,
+        0, 0, 1,   0, 1, 1,   1, 1, 1,   1, 0, 1
+    };
 
-    // Funcion propia de inicializacion
-    inicializa();
-    // Funcion propia de dibujado
-    glutDisplayFunc(dibuja);
-    // Funcion propia de actualizacion
-    glutIdleFunc(spin);
+    static float alpha = 0;
+    //attempt to rotate cube
+    glRotatef(alpha, 0, 1, 0);
 
-    // Inicia el ciclo de dibujado
-    glutMainLoop();
+    /* We have a color array and a vertex array */
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+    glVertexPointer(3, GL_FLOAT, 0, vertices);
+    glColorPointer(3, GL_FLOAT, 0, colors);
 
+    /* Send data : 24 vertices */
+    glDrawArrays(GL_QUADS, 0, 24);
+
+    /* Cleanup states */
+    glDisableClientState(GL_COLOR_ARRAY);
+    glDisableClientState(GL_VERTEX_ARRAY);
+    alpha += 1;
+}
+
+void display( GLFWwindow* window )
+{
+    // Limite de FPS
+    int FPS = 60;
+    // Duracion de cada frame
+    float durFrame = (1.0 / (float)FPS);
+    // Declaracion del cronometro
+    Timer* cronometro = Timer::Instance();
+
+    while(!glfwWindowShouldClose(window))
+    {
+        // INICIO DEL FRAME
+        cronometro->Start();
+
+        // Scale to window size
+        GLint windowWidth, windowHeight;
+        glfwGetWindowSize(window, &windowWidth, &windowHeight);
+        glViewport(0, 0, windowWidth, windowHeight);
+
+        // Draw stuff
+        glClearColor(0.0, 0.8, 0.3, 1.0);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        glMatrixMode(GL_PROJECTION_MATRIX);
+        glLoadIdentity();
+        gluPerspective( 60, (double)windowWidth / (double)windowHeight, 0.1, 100 );
+
+        glMatrixMode(GL_MODELVIEW_MATRIX);
+        glTranslatef(0,0,-5);
+
+        drawCube();
+
+        // Update Screen
+        glfwSwapBuffers(window);
+
+        // FIN DEL FRAME
+        cronometro->Tick();
+        // Si el tiempo transcurrido es menor a lo que debe de durar el frame
+        if (cronometro->DeltaTime() < durFrame)
+            // Espera el tiempo que falta para que el frame se dibuje
+            cronometro->Wait(durFrame - cronometro->DeltaTime());
+
+        // Si el tiempo transcurrido es mayor o igual a lo que debe durar el frame
+        if (cronometro->DeltaTime() >= durFrame)
+        {
+            // Mostrar los FPS
+            printf("FPS: %f (%.2fms) \n", 1.0 / cronometro->DeltaTime(), cronometro->DeltaTime() * 1000);
+            // Reiniciar el cronometro
+            cronometro->Reset();
+        }
+
+        // Check for any input, or window movement
+        glfwPollEvents();
+    }
+}
+
+int main(int argc, char** argv)
+{
+    GLFWwindow* window = initWindow(1024, 620);
+    if( NULL != window )
+    {
+        display( window );
+    }
+    glfwDestroyWindow(window);
+    glfwTerminate();
     return 0;
 }
+ 

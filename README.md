@@ -17,8 +17,8 @@ Para facilitar la instalación de las bibliotecas, se utiliza [MSYS2](https://ww
 1. Descargar [MSYS2](https://www.msys2.org/) y seguir los pasos indicados por el *wizard*.
 *(Al elegir el directorio de instalación es recomendable una ruta sin espacios)*
 2. Ejecutar *MSYS2* desde el inicio de Windows o desde el ejecutable en su directorio de instalación para instalar los paquetes necesarios.
-3. Instalar *gcc*: compilador para *C/C++*, con el comando:
-` pacman -S gcc`.
+3. Instalar [gcc](https://packages.msys2.org/package/mingw-w64-x86_64-gcc): compilador para *C/C++*, con el comando:
+` pacman -S mingw-w64-x86_64-gcc`.
 4. Instalar el [depurador](https://packages.msys2.org/package/mingw-w64-x86_64-gdb): con el comando: 
 `pacman -S mingw-w64-x86_64-gdb`
 5. Instalar [glfw](https://packages.msys2.org/package/mingw-w64-x86_64-glfw?repo=mingw64):
