@@ -1,6 +1,6 @@
 #version 330 core
 
-//debe de existir una variable de salida que es el color final
+//debe de existir una variable de salida que es el color final del fragmento
 out vec4 FragColor;
 
 void main()

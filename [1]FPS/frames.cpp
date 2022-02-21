@@ -134,14 +134,10 @@ void display( GLFWwindow* window )
             // Espera el tiempo que falta para que el frame se dibuje
             cronometro->Wait(durFrame - cronometro->DeltaTime());
 
-        // Si el tiempo transcurrido es mayor o igual a lo que debe durar el frame
-        if (cronometro->DeltaTime() >= durFrame)
-        {
-            // Mostrar los FPS
-            printf("FPS: %f (%.2fms) \n", 1.0 / cronometro->DeltaTime(), cronometro->DeltaTime() * 1000);
-            // Reiniciar el cronometro
-            cronometro->Reset();
-        }
+        // Mostrar los FPS y el tiempo transcurrido
+        printf("FPS: %f (%.2fms) \n", 1.0 / cronometro->DeltaTime(), cronometro->DeltaTime() * 1000);
+        // Reiniciar el cronometro
+        cronometro->Reset();
 
         // Check for any input, or window movement
         glfwPollEvents();
