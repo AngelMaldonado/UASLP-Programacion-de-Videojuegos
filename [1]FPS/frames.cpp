@@ -1,5 +1,5 @@
 /******************************************
-*  Autor : Angel de Jesus Maldonado Juarez   
+*  Equipo: Angel Maldonado & Kevin Ávila   
 *  Creado el : Vie Feb 11 2022
 *  Archivo : frames.cpp
 *  Descripcion : implementacion de FPS
