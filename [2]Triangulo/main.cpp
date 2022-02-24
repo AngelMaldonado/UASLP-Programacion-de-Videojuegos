@@ -40,34 +40,49 @@ int main(void)
     // Vertices del trinagulo
     // Propiedades de los vertices:
     // 1. Posicion
-    // 2. ...
-    // 3. ...
+    // 2. Color
+    // 3. Normal
+    // 4. Textura
+    // 5. Coordenada de la textura
+    // 6. ...
+    // Las propiedades se pasan al vs directamente en forma de arreglo
     float vertices[] = {
-        -0.5f, -0.5f, 0.0f,
-        0.5f, -0.5f, 0.0f,
-        0.0f, 0.5f, 0.0f
+        -0.5f, -0.5f, 0.0f, 1.0f, 0.0f, 0.0f,
+        0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f,
+        0.0f, 0.5f, 0.0f, 0.0f, 0.0f, 1.0f
     };
 
-    // Buffer de objetos de vertices
+    // Buffer de objetos de vertices (Guarda la informacion)
     unsigned int VBO;
-    // Objeto de arreglo de indices de vertices
+    // Objeto de arreglo de indices de vertices (Guarda la configuración de las propiedades de los vertices)
     unsigned int VAO;
 
     // Crear el buffer de memoria para los vertices
     glGenBuffers(1, &VBO);
-    // Crear el buffer de memoria para los indices
+    // Crear el buffer de memoria para la configuracion de los vertices
     glGenVertexArrays(1, &VAO);
+
 
     // Asignar el buffer de memoria para los indices
     glBindVertexArray(VAO);
-    // Asignar el buffer de memoria para los vertices
+    // Asignar el buffer de memoria para la configuracion de los vertices
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     // Asignar los datos del buffer de memoria para los vertices
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     // Asignar los datos del buffer de memoria para los indices
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    // indice del vertice, 
+    // numero de atributos, 
+    // tipo de dato, 
+    // normalizado, 
+    // stride/bytes para el siguiente vertice, 
+    // offset/bytes desde el inicio del buffer
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)12);
+    // *** Esta configuracion (VAO) solo funcionara para VBO
+
     // Habilitar el buffer de memoria para los vertices
     glEnableVertexAttribArray(0);
+    glEnableVertexAttribArray(1);
 
     // Se crean 2 programas de shaders (vertex y fragment)
     GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[2]Triangulo\\vs1.glsl",
