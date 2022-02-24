@@ -6,6 +6,9 @@ layout (location = 1) in vec3 Color;
 
 out vec3 colorVertice;
 
+// Variable uniforme (es la misma en todos los shader)
+uniform vec3 colorUniform;
+
 void main()
 {
     //gl_position en una variable out predefinida de tipo vec4

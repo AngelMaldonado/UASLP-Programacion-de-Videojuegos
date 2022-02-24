@@ -96,6 +96,15 @@ int main(void)
 
         // Seleccionar el programa de shaders
         glUseProgram(programaID);
+
+        // Obten la direccion de "colorUniform"
+        int idUniform = glGetUniformLocation(programaID, "colorUniform");
+        // 3f -> va a meter 3 flotantes en la direccion de "colorUniform"
+        glUniform3f(idUniform, 1.0f, 1.0f, 0.0f);
+
+        int idFactorAmb = glGetUniformLocation(programaID, "factorAmbiental");
+        glUniform1f(idFactorAmb, 0.5f);
+
         glBindVertexArray(VAO);
         // Dibujar el triangulo
         glDrawArrays(GL_TRIANGLES, 0, 3);// Primer indice, cantidad de vertices
