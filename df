@@ -1,0 +1,83 @@
+[33mcommit 755a60160aec936ecba690db78874aad07d7a8b1[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Thu Feb 24 15:38:02 2022 -0600
+
+    #2 - Vertex shader y fragment shader vistos
+
+[33mcommit 33f5bcdf74f92b88d6f270dc9f92c46043cee39b[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Mon Feb 21 16:17:30 2022 -0600
+
+    #1 - Actualización README y equipo en frames.cpp
+
+[33mcommit 849d2a2f0ade7ed935f8ba7fc589be081a0e26f6[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Mon Feb 21 14:12:39 2022 -0600
+
+    #1 - Correcion al mostrar los FPS
+
+[33mcommit 1ffe344656bb3f9887cc717e99e34809c5953e87[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 17:17:52 2022 -0600
+
+    #2 - Programa ejecutado correctamente
+
+[33mcommit c41ff19822186c20ee851c154a7c4cb66294d900[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 14:32:30 2022 -0600
+
+    Archivos de .vscode
+
+[33mcommit 91da7102782b95dc230a8b97a86697278b17e101[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 13:35:27 2022 -0600
+
+    #1 - (Avance)FPS con las nuevas bibliotecas y correción del comando para instalar gcc en MSYS2
+
+[33mcommit e6b1cebc7d79a1ba42e4bfd6f81dfe440e4cd487[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 09:06:08 2022 -0600
+
+    Actualización README
+
+[33mcommit 4a790e678a13df02e0925eb455bcc576d2ecf286[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 09:01:24 2022 -0600
+
+    Allow external console and include .vscode folder
+
+[33mcommit c7d4268b6637f3f9965fb8337d58b83c8c065e52[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 00:52:04 2022 -0600
+
+    gitignore 3
+
+[33mcommit aa7e6d301d4e7a484913d7c112e6900169d89e79[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 00:49:35 2022 -0600
+
+    gitignore 2
+
+[33mcommit 152cc45439932e79ade14918657e187c33274468[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 00:47:34 2022 -0600
+
+    gitignore 1
+
+[33mcommit 335a16efa1b7b7838bf697df7e7586d328a45954[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 11 00:43:46 2022 -0600
+
+    Actualización README, glew, glfw3 y glm.
+
+[33mcommit 9cef917723d41a59dca10d63f42322dca5d84aa4[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 4 17:48:53 2022 -0600
+
+    #1 - Clase Timer y avance de implementacion de fps
+
+[33mcommit a51e7d3f3f301633c353ae38739e27cc78d4b89d[m
+Author: AngelMaldonado <amaldonadojuarez@gmail.com>
+Date:   Fri Feb 4 01:01:01 2022 -0600
+
+    Primer commit
