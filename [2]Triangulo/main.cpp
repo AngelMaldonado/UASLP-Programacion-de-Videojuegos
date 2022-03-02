@@ -21,11 +21,18 @@
 // Codigo para cargar shaders como programas
 #include "shader.hpp"
 
+using namespace glm;
+
 // Referencia global a la ventana
 GLFWwindow* ventana;
 
+// Matrices de transformación
+mat4 modelo, vista, proyeccion;
+
 // Funcion para inicializar la ventana con GLFW, glew y OpenGL
 int InicializaVentana();
+
+void genMatrices();
 
 // Main
 int main(void)
@@ -97,13 +104,25 @@ int main(void)
         // Seleccionar el programa de shaders
         glUseProgram(programaID);
 
+        // Variables uniformes
         // Obten la direccion de "colorUniform"
         int idUniform = glGetUniformLocation(programaID, "colorUniform");
         // 3f -> va a meter 3 flotantes en la direccion de "colorUniform"
         glUniform3f(idUniform, 1.0f, 1.0f, 0.0f);
 
+
         int idFactorAmb = glGetUniformLocation(programaID, "factorAmbiental");
         glUniform1f(idFactorAmb, 0.5f);
+
+
+        // Matrices de transformacion
+        genMatrices();
+        int modeloDir = glGetUniformLocation(programaID, "modelo");
+        glUniformMatrix4fv(modeloDir, 1, GL_FALSE, value_ptr(modelo));
+        modeloDir = glGetUniformLocation(programaID, "vista");
+        glUniformMatrix4fv(modeloDir, 1, GL_FALSE, value_ptr(vista));
+        modeloDir = glGetUniformLocation(programaID, "proyeccion");
+        glUniformMatrix4fv(modeloDir, 1, GL_FALSE, value_ptr(proyeccion));
 
         glBindVertexArray(VAO);
         // Dibujar el triangulo
@@ -121,6 +140,23 @@ int main(void)
     // Cerrar la ventana
     glfwTerminate();
     return 0;
+}
+
+void genMatrices() 
+{
+    // Modelo
+    modelo = mat4(1);
+    modelo = translate(modelo, vec3(0.5f, 0.0f, 0.0f));
+    
+    // Vista
+    vec3 ojo(0.0f, 1.0f, 5.0f);
+    vec3 centro(0.0f, 0.0f, 0.0f);
+    vec3 up(0.0f, 1.0f, 0.0f);
+    vista = lookAt(ojo, centro, up);
+
+    // Proyeccion
+    proyeccion = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
 }
 
 int InicializaVentana()
