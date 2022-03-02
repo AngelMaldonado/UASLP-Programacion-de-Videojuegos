@@ -15,7 +15,10 @@
                 "${fileDirname}\\geometry\\Vertex.cpp",
                 "${fileDirname}\\gl\\OBJFileReader.cpp",
                 "-o",
-                "${fileDirname}\\${fileBasenameNoExtension}.exe"
+                "${fileDirname}\\${fileBasenameNoExtension}.exe",
+                "-lglfw3",
+                "-lopengl32",
+                "-lglew32"
             ],
             "options": {
                 "cwd": "${fileDirname}"

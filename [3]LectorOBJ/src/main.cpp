@@ -45,10 +45,7 @@ int main(void)
     obj = objReader.readFile("../obj/test/cube.obj", 'n');
 
     // Extraccion de los vertices como vectores
-    vector<Vertex> objVertices;
-    for(Mesh mesh : obj.getMeshes())
-        for(Vertex vertex : mesh.getVertices())
-            objVertices.push_back(vertex);
+    float* vertices = obj.verticesAsArray();
 
     // Buffer de objetos de vertices
     unsigned int VBO;
@@ -75,17 +72,17 @@ int main(void)
     GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[2]Triangulo\\vs1.glsl",
                                     "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[2]Triangulo\\fs1.glsl");
 
+    // Seleccionar el programa de shaders
+    glUseProgram(programaID);
+    glBindVertexArray(VAO);
+
     // Ciclo principal
     do
     {
         // Limpia la ventana de color
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Seleccionar el programa de shaders
-        glUseProgram(programaID);
-        glBindVertexArray(VAO);
         // Dibujar el triangulo
-        glDrawArrays(GL_TRIANGLES, 0, 3);// Primer indice, cantidad de vertices
+        glDrawArrays(GL_QUADS, 0, obj.countTotalVertices());// Primer indice, cantidad de vertices
 
         // Actualizar la ventana (buffer)
         glfwSwapBuffers(ventana);

@@ -7,6 +7,7 @@ using namespace std;
 #pragma once
 #include <iostream>
 #include <memory>
+#include <GL/glew.h>
 #include "containers.h"
 
 // Coordinates: X, Y and Z
@@ -41,7 +42,6 @@ private:
     double y;
     // Coordinate in z.
     double z;
-
 public:
     // Default constructor
     Vertex();
@@ -143,8 +143,14 @@ class Mesh {
 private:
     string name;
     vector <Face> faces;
+    vector <int> verticesIndices;
     int vertexIndex;
     vector <Vertex> vertices;
+
+    // Render data
+    unsigned int VAO, VBO, EBO;
+
+    void setupMesh();
 public:
     // If there is more than one Mesh, last index of past Mesh is required
     Mesh(string name, int lastIndex);
@@ -189,6 +195,9 @@ public:
 
     // Returns the Vertex index of the vector
     int getVertexIndex();
+
+    // Get the indices of vertices that compose each face
+    vector<int> getFaceVerticesIndices();
 };
 
 /**
@@ -209,6 +218,12 @@ class Object{
         Object(vector<Mesh> mesh);
         // Getter for the vector of meshes
         vector<Mesh> &getMeshes();
+        // Returns the number of vertices
+        int countVertices();
+        // Returns the total number of vertices
+        int countTotalVertices();
+        // Returns an array containing triads of coordinates representing each face set of vertices
+        float* verticesAsArray();
         // Getter for the object's origin
         Coordinates &getOrigin();
         // Setter for the object's origin

@@ -15,6 +15,37 @@ vector<Mesh> &Object::getMeshes() {
     return meshes;
 }
 
+int Object::countVertices() {
+    int vertices = 0;
+    for(Mesh m : meshes) {
+        vertices += m.getVertices().size();
+    }
+    return vertices;
+}
+
+int Object::countTotalVertices() {
+    int vertices = 0;
+    for(Mesh m : meshes)
+        for(Face f : m.getFaces())
+            vertices += f.getVertices().size();
+    return vertices;
+}
+
+float* Object::verticesAsArray() {
+    float* vertices = new float(countTotalVertices());
+    int vi = 0;
+
+    for(Mesh m : meshes)
+        for(Face f : m.getFaces())
+            for(Vertex v : f.getVertices()) {
+                vertices[vi] = v.getX(), vi++;
+                vertices[vi] = v.getY(), vi++;
+                vertices[vi] = v.getZ(), vi++;
+            }
+
+    return vertices;
+}
+
 Coordinates &Object::getOrigin() {
     return origin;
 }
