@@ -9,8 +9,12 @@ uniform vec3 Color;
 
 void main()
 {
-	// gl_FragColor = texture2D(sampler, texCoord0) * 
-	// 	clamp(dot(-lightDirection, normal0), 0.0, 1.0);
+    // Se multiplica la matriz de textura por la matriz de color
+	gl_FragColor = texture2D(sampler, texCoord0) * vec4(Color, 1.0);
+
+    // Mostrar solamente la texura
+    //gl_FragColor = texture2D(sampler, texCoord0);
 	
-    gl_FragColor = vec4(Color, 1.0);
+    // Mostrar solamente el color
+    //gl_FragColor = vec4(Color, 1.0);
 }

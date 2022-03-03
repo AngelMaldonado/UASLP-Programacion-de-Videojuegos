@@ -25,6 +25,9 @@
 // Mesh
 #include "../include/mesh.h"
 
+// Apertura de archivos de imagen
+#include "../include/stb_image.h"
+
 using namespace glm;
 
 // Referencia global a la ventana
@@ -34,6 +37,10 @@ GLFWwindow* ventana;
 mat4 mvp;
 // Matriz de normales
 mat4 normal;
+// Variable de rotacion
+float rotateFactor = 0.0f;
+// Variable de escalado
+float scaleFactor = 2.0f;
 
 // Funcion para inicializar la ventana con GLFW, glew y OpenGL
 int InicializaVentana();
@@ -53,6 +60,23 @@ int main(void)
     // Lectura del objeto
     // Toda la inicializacion del VBO y VAO se hace en el constructor de Mesh
     Mesh mesh("../obj/test/monkey1.obj");
+    
+    // Inicializacion de la textura
+    int width, height, numComponents;
+    GLuint textureID;
+    // Carga de la textura
+    unsigned char* texture = stbi_load("../obj/test/fire_texture.jpg", &width, &height, &numComponents, 4);
+    
+    // Generar un identificador de textura
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+
+    stbi_image_free(texture);
 
     GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\vs1.glsl",
                                     "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\fs1.glsl");
@@ -78,7 +102,7 @@ int main(void)
         glUniformMatrix4fv(normalLoc, 1, GL_FALSE, value_ptr(normal));
         // Color del modelo
         int colorLoc = glGetUniformLocation(programaID, "Color");
-        glUniform3f(colorLoc, 0.0f, 0.0f, 1.0f);
+        glUniform3f(colorLoc, 1.0f, 0.0f, 1.0f);
         // Direccion de la luz
         // int lightDirLoc = glGetUniformLocation(programaID, "LightDir");
         // glUniform3f(lightDirLoc, 0.0f, 0.0f, 1.0f);
@@ -152,13 +176,19 @@ int InicializaVentana()
 
 void genMatrices() {
     // Model-view projection
-    mat4 model = mat4(1); // model
-    model = translate(model, vec3(0.0f, 0.0f, -5.0f));
+    mat4 model = mat4(1);
+    mat4 scaleM = scale(model, vec3(scaleFactor)); // scale
+    mat4 translateM = translate(model, vec3(0.0f, 0.0f, -5.0f)); // translate
+    mat4 rotX = rotate(mat4(1), 0.0f, vec3(1.0, 0.0, 0.0)); // rotation in x
+    mat4 rotY = rotate(mat4(1), rotateFactor += 0.0001, vec3(0.0, 1.0, 0.0)); // rotation in y
+    mat4 rotZ = rotate(mat4(1), 0.0f, vec3(0.0, 0.0, 1.0)); // rotation in z
+    mat4 rotXYZ = rotX * rotY * rotZ; // rotation in x, y, z
+    model = translateM * rotXYZ * scaleM; // model
     mat4 view = mat4(1); // view
-    vec3 eye = vec3(0.0f, 1.0f, 5.0f);
-    vec3 center = vec3(0.0f, 0.0f, 0.0f);
-    vec3 up = vec3(0.0f, 1.0f, 0.0f);
-    view = lookAt(eye, center, up);
+    vec3 eye = vec3(0.0f, 1.0f, 5.0f); // eye
+    vec3 center = vec3(0.0f, 0.0f, 0.0f); // center
+    vec3 up = vec3(0.0f, 1.0f, 0.0f); // up
+    view = lookAt(eye, center, up); // view
     mat4 projection = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f); // projection
     
     mvp = projection * view * model;

@@ -11,6 +11,7 @@
                 "${file}",
                 "${fileDirname}\\mesh.cpp",
                 "${fileDirname}\\objloader.cpp",
+                "${fileDirname}\\stb_image.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-lglfw3",
