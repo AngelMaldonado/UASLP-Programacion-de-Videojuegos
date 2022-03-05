@@ -66,24 +66,24 @@ int main(void)
 
     // Lectura del objeto
     // Toda la inicializacion del VBO y VAO se hace en el constructor de Mesh
-    Mesh mesh("../obj/test/monkey1.obj");
-    
+    Mesh mesh("../obj/test/cube.obj");
+    int typeIlum;
     // Inicializacion de la textura
-    int width, height, numComponents;
-    GLuint textureID;
-    // Carga de la textura
-    unsigned char* texture = stbi_load("../obj/test/fire_texture.jpg", &width, &height, &numComponents, 4);
+    // int width, height, numComponents;
+    // GLuint textureID;
+    // // Carga de la textura
+    // unsigned char* texture = stbi_load("../obj/test/fire_texture.jpg", &width, &height, &numComponents, 4);
     
-    // Generar un identificador de textura
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+    // // Generar un identificador de textura
+    // glGenTextures(1, &textureID);
+    // glBindTexture(GL_TEXTURE_2D, textureID);
+    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
 
-    stbi_image_free(texture);
+    // stbi_image_free(texture);
 
     GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\vs1.glsl",
                                     "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\fs1.glsl");
@@ -101,7 +101,18 @@ int main(void)
         // Atributos de los shaders
         glBindAttribLocation(programaID, 0, "position"); // posicion
         glBindAttribLocation(programaID, 1, "texCoord"); // coordenadas de textura
+        
         // Variables uniformes
+        // Lee las teclas
+        if(glfwGetKey(ventana, GLFW_KEY_G))
+			typeIlum = 1;
+		else if (glfwGetKey(ventana, GLFW_KEY_P))
+			typeIlum = 2;
+		else if (glfwGetKey(ventana, GLFW_KEY_F))
+			typeIlum = 3;
+
+		int idTipo = glGetUniformLocation(programaID, "typeIlum");
+		glUniform1i(idTipo, typeIlum);
         // Matrices de transformacion
         genMatrices();
         // Matriz de modelo
@@ -186,7 +197,7 @@ int InicializaVentana()
 
 void genMatrices() {
     // Model-view projection
-    mat4 model = mat4(1);
+    model = mat4(1);
     mat4 scaleM = scale(model, vec3(scaleFactor)); // scale
     mat4 translateM = translate(model, vec3(0.0f, 0.0f, -5.0f)); // translate
     mat4 rotX = rotate(mat4(1), 0.0f, vec3(1.0, 0.0, 0.0)); // rotation in x
