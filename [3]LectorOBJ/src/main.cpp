@@ -4,6 +4,13 @@
 *  Archivo : main.cpp
 *  Descripcion : Lectura de archivos .obj
 *******************************************/
+
+/*
+ * Para iluminacion: 
+ * - Flat: normales de cara
+ * - Gouraud: normales de vertices
+ * - Phong: normales del fragmento (todos los pixeles que conforman la cara)
+*/
 // Bibliotecas I/O
 #include <stdio.h>
 // Biblioteca de compatibilidad
@@ -33,10 +40,10 @@ using namespace glm;
 // Referencia global a la ventana
 GLFWwindow* ventana;
 
+// Matriz modelo
+mat4 model;
 // Matriz model-view-projection
 mat4 mvp;
-// Matriz de normales
-mat4 normal;
 // Variable de rotacion
 float rotateFactor = 0.0f;
 // Variable de escalado
@@ -91,21 +98,24 @@ int main(void)
         // Seleccionar el programa de shaders
         glUseProgram(programaID);
 
+        // Atributos de los shaders
+        glBindAttribLocation(programaID, 0, "position"); // posicion
+        glBindAttribLocation(programaID, 1, "texCoord"); // coordenadas de textura
         // Variables uniformes
         // Matrices de transformacion
         genMatrices();
-        // // Guarda las matrices en el buffer-shader
+        // Matriz de modelo
+        int modelLoc = glGetUniformLocation(programaID, "Model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(model));
+        // Guarda las matrices en el buffer-shader
         int mvpLoc = glGetUniformLocation(programaID, "MVP");
         glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-        // Normal
-        int normalLoc = glGetUniformLocation(programaID, "Normal");
-        glUniformMatrix4fv(normalLoc, 1, GL_FALSE, value_ptr(normal));
         // Color del modelo
         int colorLoc = glGetUniformLocation(programaID, "Color");
         glUniform3f(colorLoc, 1.0f, 0.0f, 1.0f);
         // Direccion de la luz
-        // int lightDirLoc = glGetUniformLocation(programaID, "LightDir");
-        // glUniform3f(lightDirLoc, 0.0f, 0.0f, 1.0f);
+        int lightDirLoc = glGetUniformLocation(programaID, "lightDirection");
+        glUniform3f(lightDirLoc, 0.0f, 0.0f, 1.0f);
 
         // Dibuja el objeto
         // Las operaciones Bind y dibujado del objeto se hacen en esta funcion
@@ -192,9 +202,4 @@ void genMatrices() {
     mat4 projection = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f); // projection
     
     mvp = projection * view * model;
-
-    // Normal
-    normal = model;
-
-    // 
 }

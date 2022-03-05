@@ -1,5 +1,6 @@
 #version 120
 
+// Ya se interpolan las normales
 varying vec2 texCoord0;
 varying vec3 normal0;
 
@@ -17,4 +18,7 @@ void main()
 	
     // Mostrar solamente el color
     //gl_FragColor = vec4(Color, 1.0);
+
+    // Color, textura e iluminacion
+    //gl_FragColor = texture2D(sampler, texCoord0) * vec4(Color, 1.0) * clamp(dot(-lightDirection, normal0), 0.0, 1.0);
 }
