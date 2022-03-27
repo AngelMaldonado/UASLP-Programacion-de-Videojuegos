@@ -69,22 +69,23 @@ int main(void)
     // Lectura del objeto
     // Toda la inicializacion del VBO y VAO se hace en el constructor de Mesh
     Mesh mesh("../obj/test/monkey1.obj");
-    // Inicializacion de la textura
-    // int width, height, numComponents;
-    // GLuint textureID;
-    // // Carga de la textura
-    // unsigned char* texture = stbi_load("../obj/test/fire_texture.jpg", &width, &height, &numComponents, 4);
-    
-    // // Generar un identificador de textura
-    // glGenTextures(1, &textureID);
-    // glBindTexture(GL_TEXTURE_2D, textureID);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	// glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    // glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
 
-    // stbi_image_free(texture);
+    // Inicializacion de la textura
+    int width, height, numComponents;
+    GLuint textureID;
+    // Carga de la textura
+    unsigned char* texture = stbi_load("../obj/test/bricks.jpg", &width, &height, &numComponents, 4);
+    
+    // Generar un identificador de textura
+    glGenTextures(1, &textureID);
+    glBindTexture(GL_TEXTURE_2D, textureID);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
+
+    stbi_image_free(texture);
 
     GLuint phongShaders = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\phongvs.glsl",
                                     "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\phongfs.glsl");
@@ -105,25 +106,25 @@ int main(void)
         // Lee las teclas
         if(glfwGetKey(ventana, GLFW_KEY_G))
         {
-            printf("Gouraud shading\n");
+            // printf("Gouraud shading\n");
 			glUseProgram(gouraudShaders);
             genMatrices(gouraudShaders);
         }
 		else if (glfwGetKey(ventana, GLFW_KEY_P))
         {
-            printf("Phong shading\n");
+            // printf("Phong shading\n");
 			glUseProgram(phongShaders);
             genMatrices(phongShaders);
         }
 		else if (glfwGetKey(ventana, GLFW_KEY_F))
         {
-            printf("Flat shading\n");
+            // printf("Flat shading\n");
 			glUseProgram(flatShaders);
             genMatrices(flatShaders);
         }
         else
         {
-            printf("Flat shading\n");
+            // printf("Flat shading\n");
             glUseProgram(flatShaders);
             genMatrices(flatShaders);
         }

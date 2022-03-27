@@ -1,12 +1,16 @@
 #version 330 core
 
 layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 texCoords;
+layout (location = 1) in vec2 texCoords;
 layout (location = 2) in vec3 normal;
 
+out vec2 TexCoords;
 out vec3 Normal;
 out vec3 FragPos;
 out vec3 LightPos;
+
+// Texturas
+uniform sampler2D sampler;
 
 // Model
 uniform mat4 Model;
@@ -28,4 +32,6 @@ void main()
     FragPos = vec3(Model * vec4(position, 1.0));
     // Posicion de la luz
     LightPos = vec3(View * vec4(LightPosition, 1.0));
+    // Coordenadas de textura
+    TexCoords = texCoords;
 }

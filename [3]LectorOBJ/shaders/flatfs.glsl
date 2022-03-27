@@ -1,9 +1,7 @@
 #version 330 core
 
-layout (location = 0) in vec3 position;
-layout (location = 1) in vec3 texCoords;
-layout (location = 2) in vec3 normal;
-
+// Texture coordinates
+out vec2 TexCoords;
 // Normal
 in vec3 Normal;
 // Posicion del fragmento
@@ -12,6 +10,9 @@ in vec3 FragPos;
 in vec3 LightPos;
 // Final fragment color;
 out vec4 FragColor;
+
+// Texturas
+uniform sampler2D sampler;
 
 // Color
 uniform vec3 ObjectColor;
@@ -28,5 +29,5 @@ void main()
 {
     // Se multiplica la matriz de textura por la matriz de color
 	//gl_FragColor = texture2D(sampler, texCoord0) * vec4(Color, 1.0);
-    FragColor = vec4((1 - max(0, dot(LightPosition, Normal))) * ObjectColor, 1.0);
+    FragColor = texture(sampler, TexCoords) * vec4((1 - max(0, dot(LightPosition, Normal))) * ObjectColor, 1.0);
 }
