@@ -1,10 +1,10 @@
-// Fuente: https://github.com/BennyQBD/ModernOpenGLTutorial
 #ifndef OBJ_LOADER_H_INCLUDED
 #define OBJ_LOADER_H_INCLUDED
 
 #include <glm/glm.hpp>
 #include <vector>
 #include <string>
+#include "Object3D.h"
 
 struct OBJIndex
 {
@@ -26,7 +26,7 @@ public:
     void CalcNormals();
 };
 
-class OBJModel
+class ObjLoader
 {
 public:
     std::vector<OBJIndex> OBJIndices;
@@ -36,10 +36,11 @@ public:
     bool hasUVs;
     bool hasNormals;
     
-    OBJModel(const std::string& fileName);
+    Object3D LoadModel(const std::string& fileName);
     
     IndexedModel ToIndexedModel();
 private:
+    IndexedModel currentModel;
     unsigned int FindLastVertexIndex(const std::vector<OBJIndex*>& indexLookup, const OBJIndex* currentIndex, const IndexedModel& result);
     void CreateOBJFace(const std::string& line);
     

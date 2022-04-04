@@ -22,8 +22,8 @@
 #include "../include/shader.hpp"
 // Lector obj
 #include "../include/objloader.h"
-// Mesh
-#include "../include/mesh.h"
+// Object3D
+#include "../include/Object3D.h"
 
 // Apertura de archivos de imagen
 #include "../include/stb_image.h"
@@ -33,14 +33,17 @@ using namespace glm;
 // Referencia global a la ventana
 GLFWwindow* ventana;
 
-// Matriz model-view-projection
-mat4 mvp;
+// Matrices model, view y projection
+mat4 model;
+mat4 view;
+mat4 projection;
+
 // Matriz de normales
 mat4 normal;
+
 // Variable de rotacion
-float rotateFactor = 0.0f;
-// Variable de escalado
-float scaleFactor = 2.0f;
+float ang = 0.0f;
+
 // Variables de rotacion de la camara
 GLfloat RotX = 0.0f , RotY = 0.0f;
 
@@ -48,6 +51,8 @@ GLfloat RotX = 0.0f , RotY = 0.0f;
 int InicializaVentana();
 // Funcion para inicializar las matrices de transformacion
 void genMatrices();
+// Funcion para procesar las entradas del teclado
+void ProcessInput();
 // Funcion para crear las matrices de vista
 mat4 FPViewMatrix(vec3 pos, float rotX, float rotY);
 
@@ -61,29 +66,40 @@ int main(void)
         return -1;
     }
 
-    // Lectura del objeto
-    // Toda la inicializacion del VBO y VAO se hace en el constructor de Mesh
-    Mesh mesh("../obj/test/monkey1.obj");
+    // Lectura del archivo obj y almacenamiento en un objeto
+    ObjLoader loader;
+
+    // Objetos individuales
+    Object3D obj1, obj2;
+    // Vector de objetos
+    vector<Object3D> objects;
     
+    // Carga el objeto 1
+    obj1 = loader.LoadModel("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[2]Ejercicios\\obj\\cubo.obj");
+    // Modifica la matriz de modelo
+    // obj1.ModelMatrix = rotate(obj1.ModelMatrix, radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    // obj1.ModelMatrix = translate(obj1.ModelMatrix, vec3(0.0f, 0.0f, 0.0f));
+    
+    // Carga el objeto 2
+    obj2 = loader.LoadModel("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[2]Ejercicios\\obj\\plano.obj");
+    // Modifica la matriz de modelo
+    // obj2.ModelMatrix = rotate(obj2.ModelMatrix, radians(90.0f), vec3(0.0f, 1.0f, 0.0f));
+    // obj2.ModelMatrix = translate(obj2.ModelMatrix, vec3(0.0f, 0.0f, 0.0f));
+    
+    // Agrega los objetos al vector
+    objects.push_back(obj1);
+    objects.push_back(obj2);
+
     // Inicializacion de la textura
     int width, height, numComponents;
     GLuint textureID;
     // Carga de la textura
     unsigned char* texture = stbi_load("../obj/test/fire_texture.jpg", &width, &height, &numComponents, 4);
-    
-    // Generar un identificador de textura
-    glGenTextures(1, &textureID);
-    glBindTexture(GL_TEXTURE_2D, textureID);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, texture);
 
     stbi_image_free(texture);
 
-    GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\vs1.glsl",
-                                    "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\fs1.glsl");
+    GLuint programaID = LoadShaders("C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\vs_ilum.glsl",
+                                    "C:\\Users\\amald\\OneDrive - Universidad Autonoma de San Luis Potosi - UASLP\\Programacion\\Programacion de Videojuegos\\[3]LectorOBJ\\shaders\\fs_ilum.glsl");
 
     
     // Ciclo principal
@@ -92,40 +108,64 @@ int main(void)
         // Limpia la ventana de color
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Seleccionar el programa de shaders
-        glUseProgram(programaID);
+        // Procesar las entradas del teclado (1 vez por frame)
+        ProcessInput();
 
-        // Variables uniformes
-        // Matrices de transformacion
-        genMatrices();
-        // // Guarda las matrices en el buffer-shader
-        int mvpLoc = glGetUniformLocation(programaID, "MVP");
-        glUniformMatrix4fv(mvpLoc, 1, GL_FALSE, value_ptr(mvp));
-        // Normal
-        int normalLoc = glGetUniformLocation(programaID, "Normal");
-        glUniformMatrix4fv(normalLoc, 1, GL_FALSE, value_ptr(normal));
-        // Color del modelo
-        int colorLoc = glGetUniformLocation(programaID, "Color");
-        glUniform3f(colorLoc, 1.0f, 0.0f, 1.0f);
-        // Direccion de la luz
-        // int lightDirLoc = glGetUniformLocation(programaID, "LightDir");
-        // glUniform3f(lightDirLoc, 0.0f, 0.0f, 1.0f);
+        // Aplica el shader y modifica las matrices para cada modelo
+        for(int i = 0; i < (int)objects.size(); i++)
+        {
+            // Obten el modelo actual
+            Object3D obj = objects[i];
 
-        // Dibuja el objeto
-        // Las operaciones Bind y dibujado del objeto se hacen en esta funcion
-        mesh.Draw();
+            // Utiliza el shader
+            glUseProgram(programaID);
 
-        // Actualizar la ventana (buffer)
-        glfwSwapBuffers(ventana);
-        // Esperar una actualizacion
-        glfwPollEvents();
+            // Variable uniforme de color
+            int idUniform = glGetUniformLocation(programaID, "colorUniform");
+            glUniform3f(idUniform, 1.0f, 0.0f, 0.0f); // Crea el color (rojo)
+            // Variable uniforme de factor ambiental
+            int idFactorAmb = glGetUniformLocation(programaID, "factorAmbiental");
+            glUniform1f(idFactorAmb, 0.5f); // Crea el factor ambiental (0.5)
+
+            // Genera las matrices (mvp)
+            genMatrices();
+
+            // Guarda las matrices en las variables uniformes model, view y projection
+            int modelLoc = glGetUniformLocation(programaID, "model");
+            glUniformMatrix4fv(modelLoc, 1, GL_FALSE, value_ptr(obj.ModelMatrix)); // Carga la matriz del modelo
+            int viewLoc = glGetUniformLocation(programaID, "view");
+            glUniformMatrix4fv(viewLoc, 1, GL_FALSE, value_ptr(view));
+            int projLoc = glGetUniformLocation(programaID, "projection");
+            glUniformMatrix4fv(projLoc, 1, GL_FALSE, value_ptr(projection));
+
+            // Hacer el bind de los vertices del objeto actual
+            glBindVertexArray(obj.VertexArrayID);
+
+            // Dibuja el objeto actual
+            glDrawArrays(GL_TRIANGLES, 0, obj.NumberOfVertices);
+        }
+
+        
 
     }while(glfwGetKey(ventana, GLFW_KEY_ESCAPE) != GLFW_PRESS && glfwWindowShouldClose(ventana) == 0);
+
+    // Libera los buffers de los objetos
+    for(int i = 0; i < (int)objects.size(); i++)
+    {
+        // Objeto actual
+        Object3D obj = objects[i];
+
+        // Libera el buffer de vertices
+        glDeleteBuffers(1, &obj.VertexBufferID);
+        // Libera el buffer de indices
+        glDeleteBuffers(1, &obj.VertexArrayID);
+    }
 
     // Liberar los recursos
     glDeleteProgram(programaID);
     // Cerrar la ventana
     glfwTerminate();
+
     return 0;
 }
 
@@ -179,32 +219,29 @@ int InicializaVentana()
 }
 
 void genMatrices() {
-    // Model-view projection
-    mat4 model = mat4(1);
-    mat4 scaleM = scale(model, vec3(scaleFactor)); // scale
-    mat4 translateM = translate(model, vec3(0.0f, 0.0f, -5.0f)); // translate
-    mat4 rotX = rotate(mat4(1), 0.0f, vec3(1.0, 0.0, 0.0)); // rotation in x
-    mat4 rotY = rotate(mat4(1), rotateFactor += 0.0001, vec3(0.0, 1.0, 0.0)); // rotation in y
-    mat4 rotZ = rotate(mat4(1), 0.0f, vec3(0.0, 0.0, 1.0)); // rotation in z
-    mat4 rotXYZ = rotX * rotY * rotZ; // rotation in x, y, z
-    model = translateM * rotXYZ * scaleM; // model
+    // Modelo
+    model = mat4(1);
+    // translate
+    model = translate(model, vec3(0.0f, 0.0f, 0.0f));
+    // rotate
+    model = rotate(model, radians(ang), vec3(1.0f, 1.0f, 0.0f));
+    ang += 0.5f;
+    if(ang > 360.0f) ang = 0.0f;
 
+    // Vista
+    // view = mat4(1);
+    vec3 eye = vec3(0.0f, 0.0f, 5.0f);
+    vec3 center = vec3(0.0f, 0.0f, 0.0f);
+    vec3 up = vec3(0.0f, 1.0f, 0.0f);
+    view = lookAt(eye, center, up);
 
-    // mat4 view = mat4(1); // view
-    // vec3 eye = vec3(0.0f, 1.0f, 5.0f); // eye
-    // vec3 center = vec3(0.0f, 0.0f, 0.0f); // center
-    // vec3 up = vec3(0.0f, 1.0f, 0.0f); // up
-    // view = lookAt(eye, center, up); // view
-    vec3 pos(0.0f, -0.5f, -10.0f);
-    mat4 view = FPViewMatrix(pos, RotX, RotY);
+    // Proyeccion
+    projection = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+}
 
+void ProcessInput()
+{
 
-    mat4 projection = perspective(radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f); // projection
-    
-    mvp = projection * view * model;
-
-    // Normal
-    normal = model;
 }
 
 mat4 FPViewMatrix(vec3 pos, float rotX, float rotY)

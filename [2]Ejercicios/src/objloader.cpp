@@ -11,7 +11,7 @@ static inline unsigned int ParseOBJIndexValue(const std::string& token, unsigned
 static inline float ParseOBJFloatValue(const std::string& token, unsigned int start, unsigned int end);
 static inline std::vector<std::string> SplitString(const std::string &s, char delim);
 
-OBJModel::OBJModel(const std::string& fileName)
+Object3D ObjLoader::LoadModel(const std::string& fileName)
 {
 	hasUVs = false;
 	hasNormals = false;
@@ -48,6 +48,55 @@ OBJModel::OBJModel(const std::string& fileName)
                 default: break;
             };
         }
+
+        currentModel = ToIndexedModel();
+        Object3D model;
+
+        // Calcula el tamano del buffer
+        int bufferSize = currentModel.normals.size()*3 + currentModel.positions.size()*3 + currentModel.texCoords.size()*2;
+        // Crea el buffer
+        GLfloat* buffer = new GLfloat[bufferSize];
+        // Copia los datos
+        int v = 0, n = 0, t = 0;
+        for(int i = 0; i < bufferSize; i++)
+        {
+            // Valores de posicion
+            buffer[i] = currentModel.positions[v].x;
+            buffer[++i] = currentModel.positions[v].y;
+            buffer[++i] = currentModel.positions[v++].z;
+
+            // Valores de normales
+            buffer[++i] = currentModel.normals[n].x;
+            buffer[++i] = currentModel.normals[n].y;
+            buffer[++i] = currentModel.normals[n++].z;
+
+            // Valores de texturas
+            buffer[++i] = currentModel.texCoords[t].x;
+            buffer[++i] = currentModel.texCoords[t++].y;
+        }
+
+        GLuint VertexArrayId;
+        glGenVertexArrays(1, &VertexArrayId);
+        glBindVertexArray(VertexArrayId);
+
+        GLuint vertexBuffer;
+        glGenBuffers(1, &vertexBuffer);
+        glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * bufferSize, buffer, GL_STATIC_DRAW);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(currentModel.positions[0]) * currentModel.positions.size(), (void*)0);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(currentModel.normals[0]) * currentModel.normals.size(), (void*)(3 * sizeof(float)));
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(currentModel.texCoords[0]) * currentModel.texCoords.size(), (void*)(6 * sizeof(float)));
+        glEnableVertexAttribArray(2);
+
+        model.ModelMatrix = mat4(1);
+        model.NumberOfVertices = vertices.size();
+        model.VertexBufferID = vertexBuffer;
+        model.VertexArrayID = VertexArrayId;
+
+        return model;
     }
     else
     {
@@ -77,7 +126,7 @@ void IndexedModel::CalcNormals()
         normals[i] = glm::normalize(normals[i]);
 }
 
-IndexedModel OBJModel::ToIndexedModel()
+IndexedModel ObjLoader::ToIndexedModel()
 {
     IndexedModel result;
     IndexedModel normalModel;
@@ -159,7 +208,7 @@ IndexedModel OBJModel::ToIndexedModel()
     return result;
 };
 
-unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLookup, const OBJIndex* currentIndex, const IndexedModel& result)
+unsigned int ObjLoader::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLookup, const OBJIndex* currentIndex, const IndexedModel& result)
 {
     unsigned int start = 0;
     unsigned int end = indexLookup.size();
@@ -242,7 +291,7 @@ unsigned int OBJModel::FindLastVertexIndex(const std::vector<OBJIndex*>& indexLo
     return -1;
 }
 
-void OBJModel::CreateOBJFace(const std::string& line)
+void ObjLoader::CreateOBJFace(const std::string& line)
 {
     std::vector<std::string> tokens = SplitString(line, ' ');
 
@@ -258,7 +307,7 @@ void OBJModel::CreateOBJFace(const std::string& line)
     }
 }
 
-OBJIndex OBJModel::ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals)
+OBJIndex ObjLoader::ParseOBJIndex(const std::string& token, bool* hasUVs, bool* hasNormals)
 {
     unsigned int tokenLength = token.length();
     const char* tokenString = token.c_str();
@@ -292,7 +341,7 @@ OBJIndex OBJModel::ParseOBJIndex(const std::string& token, bool* hasUVs, bool* h
     return result;
 }
 
-glm::vec3 OBJModel::ParseOBJVec3(const std::string& line) 
+glm::vec3 ObjLoader::ParseOBJVec3(const std::string& line) 
 {
     unsigned int tokenLength = line.length();
     const char* tokenString = line.c_str();
@@ -325,7 +374,7 @@ glm::vec3 OBJModel::ParseOBJVec3(const std::string& line)
     //glm::vec3(atof(tokens[1].c_str()), atof(tokens[2].c_str()), atof(tokens[3].c_str()))
 }
 
-glm::vec2 OBJModel::ParseOBJVec2(const std::string& line)
+glm::vec2 ObjLoader::ParseOBJVec2(const std::string& line)
 {
     unsigned int tokenLength = line.length();
     const char* tokenString = line.c_str();
