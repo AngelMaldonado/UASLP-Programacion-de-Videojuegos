@@ -23,6 +23,7 @@ public:
 	glm::vec3* GetNormal() { return &normal; }
 
 private:
+	// x, y and z coordinates of the vertex
 	glm::vec3 pos;
 	glm::vec2 texCoord;
 	glm::vec3 normal;
