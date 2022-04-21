@@ -1,5 +1,10 @@
 /**
- * @brief // TODO: teoria de bufer de indices
+ * @brief Las primitivas de las GPUs son los triangulos, por lo que todas las
+ * operaciones de renderizado se realizan con un minimo de 3 vertices para poder
+ * dibujar un plano en la pantalla, por lo tanto si se intenta dibujar un rectangulo,
+ * se interpretara como 2 triangulos. Y los buffers de indices sirven principalmente para
+ * evitar la repeticion de vertices en el buffer de vertices, y simplemente hacer referencia a
+ * los vertices que ya existen mediante indices.
  * 
  * @author @AngelMaldonado
  * @file bufferdeindices.cpp
@@ -180,20 +185,28 @@ int main() {
      * pasaran a OpenGL.
      */
     /* Buffer con las posiciones de un triangulo */
-    float posiciones[6] {
-       -0.5f, -0.5f,
-        0.0f,  0.5f,
-        0.5f, -0.5f
+    float posiciones[] {
+       -0.5f, -0.5f, // (0) abajo-izquierda
+        0.5f, -0.5f, // (1) abajo-derecha
+        0.5f,  0.5f, // (2) arriba-derecha
+       -0.5f,  0.5f, // (3) arriba-izquierda
     };
-    /* ID del buffer, con este ID OpenGL sabra localizar el buffer en cuestion */
-    unsigned int bufferID;
+
+    /* Buffer con los indices de los vertices para cada triangulo */
+    unsigned int indices[] {
+        0, 1, 2, // triangulo 1
+        2, 3, 0  // triangulo 2
+    };
+
+    /* VBO: Vertex Buffer Object (arreglo con las coordenadas de los vertices) */
+    unsigned int vbo;
     /* Crear el buffer (1) */
-    glGenBuffers(1, &bufferID);
+    glGenBuffers(1, &vbo);
     /* Selecciona el buffer recien credo como el buffer actual */
-    glBindBuffer(GL_ARRAY_BUFFER, bufferID);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
         /* Una vez seleccionado, se puede manipular los datos dentro del buffer */
         // STATIC_DRAW: los datos no cambian pero si se muestran
-        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, posiciones, GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 2, posiciones, GL_STATIC_DRAW);
 
         /**
          * @brief Una vez definido el buffer con los datos, y OpenGL ya tiene conocimiento
@@ -212,13 +225,24 @@ int main() {
         /* Habilitar el atributo */
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    
+    /* IBO: Index Buffer Object (arreglo con los indices de las coordenadas que forman cada triangulo) */
+    unsigned int ibo;
+    /* Crear el buffer (1) */
+    glGenBuffers(1, &ibo);
+    /* Selecciona el buffer recien credo como el buffer actual */
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo); // <- se define como ELEMENT_ARRAY_BUFFER
+        /* Una vez seleccionado, se puede manipular los datos dentro del buffer */
+        // STATIC_DRAW: los datos no cambian pero si se muestran
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * 6, indices, GL_STATIC_DRAW);
+        /* El IBO no necesita habilitarse como atributo */
 
-        /* Procesa el archivo .shader */
-        CodigoFuenteShader codigoShader = ProcesaShader("../res/shaders/Basico.shader");
-        /* Crea y compila el programa principal de los shaders */
-        unsigned int shader = CrearShader(codigoShader.CodigoVertex, codigoShader.CodigoFragment);
-        /* Selecciona el programa principal */
-        glUseProgram(shader);
+    /* Procesa el archivo .shader */
+    CodigoFuenteShader codigoShader = ProcesaShader("../res/shaders/Basico.shader");
+    /* Crea y compila el programa principal de los shaders */
+    unsigned int shader = CrearShader(codigoShader.CodigoVertex, codigoShader.CodigoFragment);
+    /* Selecciona el programa principal */
+    glUseProgram(shader);
 
     /* Bucle principal (hasta cerrar ventana) */
     while(!glfwWindowShouldClose(ventana))
@@ -226,7 +250,10 @@ int main() {
         /* Proceso de renderizado */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawArrays(GL_TRIANGLES, 0, 3);
+        /* Como ahora tenemos un buffer con los indices a los vertices se cambia por la funcion glDrawElements */
+        /* (Modo, 6 indices, tipo de dato de los indices, apuntador al arreglo de indices) */
+        /* Debido a que se hizo bind al arreglo de indices no es necesario pasar por parametro el arreglo de indices */
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         /* Cambia los buffers delantero y trasero */
         glfwSwapBuffers(ventana);
@@ -242,4 +269,3 @@ int main() {
 
     return 0;
 }
-
