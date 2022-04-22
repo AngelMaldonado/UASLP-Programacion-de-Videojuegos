@@ -1,9 +1,6 @@
-#shader vertex // Tipo de shader
+#shader vertex
 #version 330 core
 
-// Acceso a la distribucion de los atributos (location = 0) <- indice del atributo //
-// in <- variable de entrada //
-// vec4 ya que la funcion gl_Position requiere un vec4 //
 layout (location = 0) in vec4 posicion;
 
 void main()
@@ -11,7 +8,7 @@ void main()
     gl_Position = posicion;
 }
 
-#shader fragment // Tipo de shader
+#shader fragment
 #version 330 core
 
 layout (location = 0) out vec4 color;

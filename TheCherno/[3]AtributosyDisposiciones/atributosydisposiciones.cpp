@@ -18,48 +18,32 @@
 int main() {
     GLFWwindow* ventana;
     
-    /* Inicializar la ventana */
     if(!glfwInit())
         return -1;
 
     
-    /* Crear la ventana y el contexto en OpenGL */
     ventana = glfwCreateWindow(640, 480, "Ventana", NULL, NULL);
-    /* Si no se pudo crear la ventana */
     if(!ventana)
     {
         glfwTerminate();
         return -1;
     }
 
-    /* Hacer ventana el contexto actual */
     glfwMakeContextCurrent(ventana);
 
-    /* Inicializar glew despues de haber creado un contexto */
     if(glewInit() != GLEW_OK)
         return -1;
 
-    /* Mostrar informacion de la version de OpenGL */
     std::cout << "Version de OpenGL: " << glGetString(GL_VERSION) << std::endl;
 
-    /**
-     * @brief Primeramente se define el buffer con los datos (bytes) que se le
-     * pasaran a OpenGL.
-     */
-    /* Buffer con las posiciones de un triangulo */
     float posiciones[6] {
        -0.5f, -0.5f,
         0.0f,  0.5f,
         0.5f, -0.5f
     };
-    /* ID del buffer, con este ID OpenGL sabra localizar el buffer en cuestion */
     unsigned int bufferID;
-    /* Crear el buffer (1) */
     glGenBuffers(1, &bufferID);
-    /* Selecciona el buffer recien credo como el buffer actual */
     glBindBuffer(GL_ARRAY_BUFFER, bufferID);
-        /* Una vez seleccionado, se puede manipular los datos dentro del buffer */
-        // STATIC_DRAW: los datos no cambian pero si se muestran
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, posiciones, GL_STATIC_DRAW);
 
         /**
@@ -80,24 +64,18 @@ int main() {
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
 
-    /* Bucle principal (hasta cerrar ventana) */
     while(!glfwWindowShouldClose(ventana))
     {
-        /* Proceso de renderizado */
         glClear(GL_COLOR_BUFFER_BIT);
 
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        /* Cambia los buffers delantero y trasero */
         glfwSwapBuffers(ventana);
 
-        /* Proceso de eventos */
         glfwPollEvents();
     }
 
-    /* Cerrar ventana */
     glfwDestroyWindow(ventana);
-    return 0;
 
     return 0;
 }

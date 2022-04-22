@@ -23,28 +23,23 @@
 int main() {
     GLFWwindow* ventana;
     
-    /* Inicializar la ventana */
     if(!glfwInit())
         return -1;
 
     
-    /* Crear la ventana y el contexto en OpenGL */
     ventana = glfwCreateWindow(640, 480, "Ventana", NULL, NULL);
-    /* Si no se pudo crear la ventana */
     if(!ventana)
     {
         glfwTerminate();
         return -1;
     }
 
-    /* Hacer ventana el contexto actual */
     glfwMakeContextCurrent(ventana);
 
     /* Inicializar glew despues de haber creado un contexto */
     if(glewInit() != GLEW_OK)
         return -1;
 
-    /* Mostrar informacion de la version de OpenGL */
     std::cout << "Version de OpenGL: " << glGetString(GL_VERSION) << std::endl;
 
     /**
@@ -68,10 +63,8 @@ int main() {
     glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6, posiciones, GL_STATIC_DRAW);
 
 
-    /* Bucle principal (hasta cerrar ventana) */
     while(!glfwWindowShouldClose(ventana))
     {
-        /* Proceso de renderizado */
         glClear(GL_COLOR_BUFFER_BIT);
 
         /**
@@ -85,16 +78,12 @@ int main() {
          */
         glDrawArrays(GL_TRIANGLES, 0, 3);
 
-        /* Cambia los buffers delantero y trasero */
         glfwSwapBuffers(ventana);
 
-        /* Proceso de eventos */
         glfwPollEvents();
     }
 
-    /* Cerrar ventana */
     glfwDestroyWindow(ventana);
-    return 0;
 
     return 0;
 }
