@@ -5,7 +5,7 @@
  * > glDebugMessageCallback() <- mejorado desde OpenGL 4.3 +informacion
  * 
  * @author @AngelMaldonado
- * @file bufferdeindices.cpp
+ * @file manejodeerrores.cpp
  * @link glfw: https://www.glfw.org/ (3.3)
  * @link glew: https://glew.sourceforge.io/ (7.0)
  * @version 1.0 Thu Apr 21 2022
@@ -200,7 +200,7 @@ int main() {
     /** Llamadas GLCall() **/
     GLCall(glGenBuffers(1, &vbo));
     GLCall(glBindBuffer(GL_ARRAY_BUFFER, vbo));
-        GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 2, posiciones, GL_STATIC_DRAW));
+        GLCall(glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 4 * 2, posiciones, GL_STATIC_DRAW));
 
         GLCall(glEnableVertexAttribArray(0));
         GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
