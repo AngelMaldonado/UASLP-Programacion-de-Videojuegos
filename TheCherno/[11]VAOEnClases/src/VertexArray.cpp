@@ -34,8 +34,6 @@ void VertexArray::AgregaBuffer(const VertexBuffer& vb, const DistribucionVertexB
         glVertexAttribPointer(i, elemento.cuenta, elemento.tipo, elemento.normalizado, distribucion.ObtenStride(), (const void*)(intptr_t)offset);
         offset += elemento.cuenta * ElementoVertexBuffer::ObtenTamTipo(elemento.tipo);
     }
-    GLCall(glEnableVertexAttribArray(0));
-    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 }
 
 void VertexArray::Bind() 
