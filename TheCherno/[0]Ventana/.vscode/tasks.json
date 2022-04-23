@@ -11,7 +11,8 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-lglfw3", // Enlazar con la libreria de GLFW
-                "-lopengl32" // Enlazar con la libreria de OpenGL
+                "-lopengl32", // Enlazar con la libreria de OpenGL
+                "-lglew32", // Enlazar con la libreria de GLEW
             ],
             "options": {
                 "cwd": "${fileDirname}"

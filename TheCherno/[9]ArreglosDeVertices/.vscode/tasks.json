@@ -7,7 +7,7 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${fileDirname}\\**.cpp", // Agregar los nuevos archivos para compilar
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-lglfw3", // Enlazar con la libreria de GLFW
