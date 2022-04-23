@@ -22,8 +22,8 @@
  * 
  * @author @AngelMaldonado
  * @file main.cpp
- * @link https://github.com/g-truc/glm
- * @link https://github.com/nothings/stb/blob/master/stb_image.h
+ * @link glm: https://github.com/g-truc/glm
+ * @link stb_image: https://github.com/nothings/stb/blob/master/stb_image.h
  * @link glfw: https://www.glfw.org/ (3.3)
  * @link glew: https://glew.sourceforge.io/ (7.0)
  * @version 1.0 Sat Apr 23 2022

@@ -14,6 +14,7 @@
  * 
  * @author @AngelMaldonado
  * @file main.cpp, stb_image.cpp, Basico.shader, Textura.cpp
+ * @link stb_image: https://github.com/nothings/stb/blob/master/stb_image.h
  * @link glfw: https://www.glfw.org/ (3.3)
  * @link glew: https://glew.sourceforge.io/ (7.0)
  * @version 1.0 Fri Apr 22 2022
