@@ -59,7 +59,7 @@ public:
     void Unbind() const;
 
     /**
-     * @brief Funcion para crear variables uniformes (1 int)
+     * @brief Funcion para establecer un entero uniforme
      * 
      * @param nombreUniforme Nombre de la variable uniforme
      * @param v0 Valor de la variable uniforme
@@ -68,7 +68,7 @@ public:
     void EstableceUniforme1i(const std::string& nombreUniforme, int v0);
     
     /**
-     * @brief Funcion para crear variables uniformes
+     * @brief Funcion para establecer un vec4 uniforme
      * @param nombreUniforme Nombre de la variable uniforme
      * @param v0 Primer valor de la variable uniforme
      * @param v1 Segundo valor de la variable uniforme
