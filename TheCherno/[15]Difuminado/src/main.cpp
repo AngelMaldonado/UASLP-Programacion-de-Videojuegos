@@ -36,7 +36,7 @@
  * - A = (0.5 * 0.5) + (1.0 * (1.0 - 0.5)) = 0.75 <- en este canal se nota el difuminado
  * 
  * @author @AngelMaldonado
- * @file main.cpp, stb_image.cpp, Basico.shader, Textura.cpp
+ * @file main.cpp
  * @link https://github.com/nothings/stb/blob/master/stb_image.h
  * @link glfw: https://www.glfw.org/ (3.3)
  * @link glew: https://glew.sourceforge.io/ (7.0)
