@@ -81,7 +81,7 @@ public:
     void EstableceUniforme4f(const std::string& nombreUniforme, float v0, float v1, float v2, float v3);
 
     /**
-     * @brief Funcion para establecer un vec4 uniforme
+     * @brief Funcion para establecer una matriz 4x4 de flotantes
      * @param nombreUniforme Nombre de la variable uniforme
      * @param matriz glm::mat4 con valores flotantes
      * @return Reserva un espacio en memoria para la variable uniforme
