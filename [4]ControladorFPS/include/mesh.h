@@ -13,16 +13,16 @@ using namespace glm;
 struct Vertex
 {
 public:
-	Vertex(const glm::vec3& pos, const glm::vec2& texCoord, const glm::vec3& normal)
+	Vertex(const glm::vec3 &pos, const glm::vec2 &texCoord, const glm::vec3 &normal)
 	{
 		this->pos = pos;
 		this->texCoord = texCoord;
 		this->normal = normal;
 	}
 
-	glm::vec3* GetPos() { return &pos; }
-	glm::vec2* GetTexCoord() { return &texCoord; }
-	glm::vec3* GetNormal() { return &normal; }
+	glm::vec3 *GetPos() { return &pos; }
+	glm::vec2 *GetTexCoord() { return &texCoord; }
+	glm::vec3 *GetNormal() { return &normal; }
 
 private:
 	// x, y and z coordinates of the vertex
@@ -44,19 +44,20 @@ class Mesh
 public:
 	mat4 ModelMatrix;
 	unsigned int numVertices;
-    Mesh(const std::string& fileName);
-	Mesh(Vertex* vertices, unsigned int numVertices, unsigned int* indices, unsigned int numIndices);
+	Mesh(const std::string &fileName);
+	Mesh(Vertex *vertices, unsigned int numVertices, unsigned int *indices, unsigned int numIndices);
 
 	void Draw();
 
 	virtual ~Mesh();
+
 protected:
 private:
 	Mesh() {}
 	static const unsigned int NUM_BUFFERS = 4;
-	void operator=(const Mesh& mesh) {}
+	void operator=(const Mesh &mesh) {}
 
-    void InitMesh(const IndexedModel& model);
+	void InitMesh(const IndexedModel &model);
 
 	GLuint m_VertexArrayObject;
 	GLuint m_vertexArrayBuffers[NUM_BUFFERS];

@@ -11,9 +11,7 @@ uniform vec3 LightPosition;
 uniform vec3 ViewPosition;
 uniform vec3 LightColor;
 
-uniform mat4 Model;
-uniform mat4 View;
-uniform mat4 Projection;
+uniform mat4 MVP;
 
 void main()
 {
@@ -39,7 +37,7 @@ void main()
     vec3 viewDir = normalize(ViewPosition - Position);
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = specularStrength * spec * LightColor;      
+    vec3 specular = specularStrength * spec * LightColor; 
 
     LightingColor = ambient + diffuse + specular;
 }

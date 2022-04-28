@@ -3,7 +3,7 @@
         {
             "type": "cppbuild",
             "label": "C/C++: g++.exe build active file",
-            "command": "C:\\Dev\\Tools\\msys64\\mingw64\\bin\\g++.exe",
+            "command": "C:\\Dev\\Tools\\Compilers\\msys64\\mingw64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
@@ -11,7 +11,6 @@
                 "${file}",
                 "${fileDirname}\\mesh.cpp",
                 "${fileDirname}\\objloader.cpp",
-                "${fileDirname}\\stb_image.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-lglfw3",
