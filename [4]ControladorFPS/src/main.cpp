@@ -42,7 +42,7 @@ float offset = 0.0f;
 // Camara
 // Rotacion de la camara
 float RotX, RotY;
-vec3 movCamara = vec3(0.0f, -0.5f, offset);
+vec3 movCamara = vec3(0.0f, -0.9f, 0.0f);
 
 // Movimiento del personaje
 float speed = 0.01f;
@@ -76,7 +76,7 @@ int main(void)
     Mesh suelo = Mesh("../obj/test/suelo.obj");
     suelo.ModelMatrix = scale(suelo.ModelMatrix, vec3(1.0));
     Mesh cubo = Mesh("../obj/test/cubo.obj");
-    cubo.ModelMatrix = translate(cubo.ModelMatrix, vec3(0.0f, 0.5f, -10.0f));
+    cubo.ModelMatrix = translate(cubo.ModelMatrix, vec3(0.0f, 0.9f, -10.0f));
     objetos.push_back(arma);
     objetos.push_back(suelo);
     objetos.push_back(cubo);
@@ -201,9 +201,12 @@ mat4 FPViewMatrix()
     mat4 view = mat4(1.0f);
 
     mat4 model = mat4(1.0f);
+
     // Convierte las rotaciones a radianes
     RotX = radians(RotX);
     RotY = radians(RotY);
+    // std::cout.precision(3);
+    // std::cout << "mouse: " << RotX << ", " << RotY << endl;
 
     // Transforma la matriz de la vista en base a la rotacion del mouse
     view = rotate(view, RotX, vec3(1.0f, 0.0f, 0.0f));
@@ -214,9 +217,9 @@ mat4 FPViewMatrix()
     // Eje X del sistema de la camara; z es la direccion de la camara
     right = vec3(view[0].x, 0.0f, -view[0].z);
 
-    // std::cout.precision(3);
-    // std::cout << "fwd: " << forward.x << ", " << forward.y << ", " << forward.z;
-    // std::cout << "\trght: " << right.x << ", " << right.y << ", " << right.z << endl;
+    std::cout.precision(3);
+    std::cout << "fwd: " << forward.x << ", " << forward.y << ", " << forward.z;
+    std::cout << "\trght: " << right.x << ", " << right.y << ", " << right.z << endl;
     // std::cout << "fwdM: " << forwardModel.x << ", " << forwardModel.y << ", " << forwardModel.z;
     // std::cout << "\trghtM: " << rightModel.x << ", " << rightModel.y << ", " << rightModel.z;
 
@@ -271,3 +274,65 @@ void procesaEntrada()
     if (RotX >= 40.0f)
         RotX = 40.0f;
 }
+
+// mat4 FPViewMatrix()
+// {
+//     vec3 forward;
+//     vec3 right;
+//     vec3 up;
+//     mat4 view = mat4(1.0f);
+
+//     mat4 model = mat4(1.0f);
+
+//     // Convierte las rotaciones a radianes
+//     RotX = radians(RotX);
+//     RotY = radians(RotY);
+//     // std::cout.precision(3);
+//     // std::cout << "mouse: " << RotX << ", " << RotY << endl;
+
+//     // Transforma la matriz de la vista en base a la rotacion del mouse
+//     view = rotate(view, RotX, vec3(1.0f, 0.0f, 0.0f));
+//     view = rotate(view, RotY, vec3(0.0f, 1.0f, 0.0f));
+
+//     // Forward vector
+//     forward = normalize(movPersonaje - movCamara);
+//     // Right vector
+//     right = normalize(cross(forward, vec3(0.0f, 1.0f, 0.0f)));
+//     // Up vector
+//     up = cross(right, forward);
+
+//     std::cout.precision(3);
+//     std::cout << "fwd: " << forward.x << ", " << forward.y << ", " << forward.z;
+//     std::cout << "\trght: " << right.x << ", " << right.y << ", " << right.z << endl;
+//     // std::cout << "fwdM: " << forwardModel.x << ", " << forwardModel.y << ", " << forwardModel.z;
+//     // std::cout << "\trghtM: " << rightModel.x << ", " << rightModel.y << ", " << rightModel.z;
+
+//     if (glfwGetKey(ventana, GLFW_KEY_W) == GLFW_PRESS)
+//         movPersonaje += vec3(0.0f, 0.0f, -1.0f) * speed;
+//     // movCamara += forward * speed, movPersonaje -= forward * speed;
+//     if (glfwGetKey(ventana, GLFW_KEY_S) == GLFW_PRESS)
+//         movPersonaje += vec3(0.0f, 0.0f, 1.0f) * speed;
+//     // movCamara -= forward * speed, movPersonaje += forward * speed;
+//     if (glfwGetKey(ventana, GLFW_KEY_D) == GLFW_PRESS)
+//         movPersonaje += vec3(1.0f, 0.0f, 0.0f) * speed;
+//     // movCamara -= right * speed, movPersonaje += right * speed;
+//     if (glfwGetKey(ventana, GLFW_KEY_A) == GLFW_PRESS)
+//         movPersonaje += vec3(-1.0f, 0.0f, 0.0f) * speed;
+//     // movCamara += right * speed, movPersonaje -= right * speed;
+
+//     // std::cout << "\tPosicion del arma x:" << movPersonaje.x << " y:" << movPersonaje.y << " z:" << movPersonaje.z;
+//     // std::cout << "\tPosicion del camara x:" << movCamara.x << " y:" << movCamara.y << " z:" << movCamara.z << endl;
+
+//     // Primera persona
+//     view = translate(view, movCamara);
+
+//     // Transforma la matriz del modelo T*R*S
+//     model = translate(model, movPersonaje);
+//     // model = translate(model, -movCamara + vec3(0.0f, -0.3f, offset));
+//     model = rotate(model, -RotX, vec3(1.0f, 0.0f, 0.0f));
+//     model = rotate(model, -RotY, vec3(0.0f, 1.0f, 0.0f));
+//     model = model * escaladoPersonaje;
+//     objetos[0].ModelMatrix = model;
+
+//     return view;
+// }
