@@ -7,7 +7,11 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
+                "-Wall",
                 "${file}",
+                "${fileDirname}\\Object3D.cpp",
+                "${fileDirname}\\ObjLoader.cpp",
+                "${fileDirname}\\stb_image.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-lglfw3",
