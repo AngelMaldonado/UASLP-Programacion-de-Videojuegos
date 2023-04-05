@@ -29,5 +29,11 @@
     <ClInclude Include="Librerias\glad\glad.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Librerias\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Librerias\stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

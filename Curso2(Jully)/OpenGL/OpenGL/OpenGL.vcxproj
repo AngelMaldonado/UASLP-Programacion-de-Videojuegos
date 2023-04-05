@@ -139,6 +139,8 @@
   <ItemGroup>
     <ClInclude Include="Librerias\glad\glad.h" />
     <ClInclude Include="Librerias\GLFW\glfw3.h" />
+    <ClInclude Include="Librerias\Shader.h" />
+    <ClInclude Include="Librerias\stb_image.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
