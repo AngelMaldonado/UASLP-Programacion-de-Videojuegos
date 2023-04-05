@@ -24,6 +24,7 @@ const char* fragmenShaderSource = "#version 330 core\n"
 "{\n"
 //"   FragColor = vertexColor;\n"
 "   FragColor = ourColor;\n"
+"   FragColor = vec4(1.0f, 0.0f, 0.0f, 1.0f);"
 "}\n\0";
 
 float vertices[] = {
