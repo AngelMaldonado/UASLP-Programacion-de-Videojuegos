@@ -1,59 +1,49 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
 #include <iostream>
-#include "glad/glad.h"
-#include "GLFW/glfw3.h"
 
 using namespace std;
 
-const int width = 200;
-const int height = 100;
+int main(void)
+{
+    GLFWwindow* window;
 
-void initGLFWVersion();
-bool gladLoad();
-void updateWindow(GLFWwindow* window);
 
-int main() {
-	initGLFWVersion();
+    /* Initialize the library */
+    if (!glfwInit())
+        return -1;
 
-	GLFWwindow* window = glfwCreateWindow(200, 100, "OpenGL", NULL, NULL);
+    /* Create a windowed mode window and its OpenGL context */
+    window = glfwCreateWindow(640, 480, "Hello World", NULL, NULL);
+    if (!window)
+    {
+        glfwTerminate();
+        return -1;
+    }
 
-	if (window == NULL) {
-		cout << "No se pudo crear la ventana!" << endl;
-		glfwTerminate();
-		return -1;
-	}
-	glfwMakeContextCurrent(window);
+    /* Make the window's context current */
+    glfwMakeContextCurrent(window);
+    
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+    {
+        cout << "Failed to initialize GLAD" << endl;
+        return -1;
+    }
 
-	if (!gladLoad()) return -1;
+    /* Loop until the user closes the window */
+    while (!glfwWindowShouldClose(window))
+    {
+        /* Render here */
+        glClear(GL_COLOR_BUFFER_BIT);
 
-	glViewport(0, 0, width, height);
+        /* Swap front and back buffers */
+        glfwSwapBuffers(window);
 
-	updateWindow(window);
+        /* Poll for and process events */
+        glfwPollEvents();
+    }
 
-	glfwTerminate();
-
-	return 0;
-}
-
-void initGLFWVersion() {
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-}
-
-bool gladLoad() {
-	bool active = true;
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-		cout << "No se pudo cargar GLAD!" << endl;
-		active = false;
-	}
-
-	return active;
-}
-
-void updateWindow(GLFWwindow* window) {
-	while (!glfwWindowShouldClose(window)) {
-		glfwSwapBuffers(window);
-		glfwPollEvents();
-	}
+    glfwTerminate();
+    return 0;
 }
