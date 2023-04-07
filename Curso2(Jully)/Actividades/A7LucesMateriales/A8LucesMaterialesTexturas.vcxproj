@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Cubo.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Variables.h" />
   </ItemGroup>
   <ItemGroup>

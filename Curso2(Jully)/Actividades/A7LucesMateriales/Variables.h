@@ -7,18 +7,15 @@ unsigned int VBO, VAO, EBO;
 unsigned int lightVAO;
 
 //Texture
-unsigned int texture[1];
-int limite;
-
 string nombre[] = {
-    "Imagenes/caja.jpg"
-};
-
-int tipo[] = {
-    0
+    "Imagenes/caja.png",
+    "Imagenes/caja_especular.png",
+    "Imagenes/caja_emisiva.png"
 };
 
 int expan[] = {
+    2,
+    2,
     0
 };
 
@@ -37,3 +34,7 @@ bool firstMouse = true;
 
 //Luz
 vec3 lightPos(1.2f, 1.0f, 2.0f);
+
+unsigned int diffuseMap;
+unsigned int specularMap;
+unsigned int emisionMap;

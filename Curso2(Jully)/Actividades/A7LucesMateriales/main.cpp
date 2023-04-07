@@ -5,7 +5,7 @@
 #include "Cubo.h"
 
 #include <Shader.h>
-#include <Texture.h>
+#include "Texture.h"
 
 void initGLFWVersion();
 bool gladLoad();
@@ -49,24 +49,21 @@ int main()
 
 	glEnable(GL_DEPTH_TEST);
 
-	limite = (sizeof(texture) / sizeof(texture[0]));
-
 	Shader ourShader("vertexShader.vs", "fragmenShader.fs");
 	Shader ourLightShader("vertexLight.vl", "fragmenLight.fl");
-	Texture ourTexture(texture, limite);
+	Texture ourTexture;
 
 	GeneracionBufferCube();
 	GeneracionBufferLight();
 
-	for (int i = 0; i < limite; i++)
-		ourTexture.GeneraTextura(texture[i], nombre[i], tipo[i], expan[i]);
+	diffuseMap = ourTexture.loadTextureID(nombre[0], expan[0]);
+	specularMap = ourTexture.loadTextureID(nombre[1], expan[1]);
+	emisionMap = ourTexture.loadTextureID(nombre[2], expan[2]);
 
-	if (limite > 1)
-	{
-		ourShader.use();
-		for (int i = 0; i < limite; i++)
-			ourShader.setInt(ourTexture.UniformTexture(), i);
-	}
+	ourShader.use();
+	ourShader.setInt("material.diffuse", 0);
+	ourShader.setInt("material.specular", 1);
+	ourShader.setInt("material.emission", 2);
 
 	updateWindow(window, ourShader, ourLightShader, ourTexture);
 
@@ -111,17 +108,14 @@ void updateWindow(GLFWwindow* window, Shader ourShader, Shader ourLightShader, T
 		glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		ourTexture.ViewTexture();
+		ourTexture.ViewTextureMap(0, diffuseMap);
+		ourTexture.ViewTextureMap(1, specularMap);
+		ourTexture.ViewTextureMap(2, emisionMap);
 
 		ourShader.use();
 		ourShader.setVec3("viewPos", camera.Position);
-		ourShader.setVec3("objectColor", 0.19f, 0.59f, 1.0f);
-		
-		ourShader.setVec3("material.ambient", 0.19f, 0.59f, 1.0f);
-		ourShader.setVec3("material.diffuse", 0.19f, 0.59f, 1.0f);
-		ourShader.setVec3("material.specular", 0.5f, 0.5f, 0.5f);
 		ourShader.setFloat("material.shininght", 32.0f);
-		
+		ourShader.setVec3("objectColor", 0.19f, 0.59f, 1.0f);
 		
 		ourShader.setVec3("light.ambient", 0.2f, 0.2f, 0.2f);
 		ourShader.setVec3("light.diffuse", 0.5f, 0.5f, 0.5f);
@@ -129,6 +123,7 @@ void updateWindow(GLFWwindow* window, Shader ourShader, Shader ourLightShader, T
 		ourShader.setVec3("light.pose", lightPos);
 
 		CameraTransform(ourShader);
+		ourShader.setFloat("time", glfwGetTime());
 
 		glBindVertexArray(VAO);
 		TransformacionObjeto(ourShader);
