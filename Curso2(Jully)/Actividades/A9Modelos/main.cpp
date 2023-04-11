@@ -55,7 +55,7 @@ int main()
     stbi_set_flip_vertically_on_load(true);
     Model ourModel("Recursos/Modelos/backpack/backpack.obj");
     
-    Model ourModel1("Recursos/Modelos/Islas/Lowpoly_tree_sample.obj");
+    Model ourModel1("Recursos/Nivel/nivel.obj");
 
     updateWindow(window, ourShader, ourModel1, ourModel);
 
