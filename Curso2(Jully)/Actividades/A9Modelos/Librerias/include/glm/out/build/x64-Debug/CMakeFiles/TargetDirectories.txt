@@ -1,0 +1,2 @@
+C:/Users/jully/Documents/Visual Studio 2019/Templates/ProjectTemplates/OpenGL/librerias/include/glm/out/build/x64-Debug/CMakeFiles/edit_cache.dir
+C:/Users/jully/Documents/Visual Studio 2019/Templates/ProjectTemplates/OpenGL/librerias/include/glm/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
