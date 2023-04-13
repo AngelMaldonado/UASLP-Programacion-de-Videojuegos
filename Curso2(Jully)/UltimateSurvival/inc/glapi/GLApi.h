@@ -13,6 +13,7 @@
 
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 #include <vector>
 
 #include <glm/glm.hpp>
@@ -34,8 +35,6 @@
 #include <glapi/Window.h>
 
 #define GLAPI_GLFW_VERSION 3
-#define GLAPI_DEF_WINDOW_WIDTH 500
-#define GLAPI_DEF_WINDOW_HEIGHT 500
 
 class GLApi {
 public:
@@ -57,7 +56,7 @@ public:
 	/**
 	 * Obtains the current and only instance of GLApi
 	 */
-	static GLApi* GetInstance(Window* window = NULL);
+	static GLApi* GetInstance();
 
 	/**
 	 * Frees current GLApi instance

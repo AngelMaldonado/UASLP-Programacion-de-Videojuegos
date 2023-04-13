@@ -2,28 +2,31 @@
 
 GLFWwindow* Window::GetGLFWwindow() { return _window; }
 
-Window::Window() {}
-
-Window::Window(int width, int height, std::string name, GLFWframebuffersizefun windowSizeFunction, GLFWcursorposfun cursorPositionFunction, GLFWscrollfun scrollFunction, GLFWkeyfun keyFunction, int inputMode, int value, bool mode3D)
+Window::Window(WindowSettings windowSettings)
 {
-	_window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
-	
-	this->windowSizeFunction = windowSizeFunction;
-	this->cursorPositionFunction = cursorPositionFunction;
-	this->scrollFunction = scrollFunction;
-	this->keyFunction = keyFunction;
-	this->inputMode = inputMode;
-	this->cursorMode = value;
-	this->mode3D = mode3D;
+	_windowSettings = windowSettings;
+	_window = glfwCreateWindow(_windowSettings.width, _windowSettings.height, _windowSettings.name.c_str(), NULL, NULL);
 }
 
 Window::~Window() {}
 
+void Window::InitWindow()
+{
+	glfwSetFramebufferSizeCallback(_window, _windowSettings.windowSizeFunction);
+	glfwSetCursorPosCallback(_window, _windowSettings.cursorPositionFunction);
+
+	glfwSetScrollCallback(_window, _windowSettings.scrollFunction);
+	glfwSetInputMode(_window, _windowSettings.inputMode, _windowSettings.cursorMode);
+	glfwSetKeyCallback(_window, _windowSettings.keyFunction);
+
+	if(_windowSettings.mode3D) GLCall(glEnable(GL_DEPTH_TEST));
+}
+
 void Window::SetSize(int width, int height)
 {
-	_width = width;
-	_height = height;
-    glViewport(0, 0, _width, _height);
+	_windowSettings.width = width;
+	_windowSettings.height = height;
+    glViewport(0, 0, _windowSettings.width, _windowSettings.height);
 }
 
 void Render()
@@ -40,4 +43,15 @@ void Window::CloseWindow()
 {
 	glfwSetWindowShouldClose(_window, true);
 }
+
+void defaultWindowSizeFunction(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+}
+
+void defaultCursorPositionFunction(GLFWwindow* window, double xpos, double ypos) { }
+
+void defaultScrollFunction(GLFWwindow* window, double xoffset, double yoffset) { }
+
+void defaultKeyFunction(GLFWwindow* window, int key, int scancode, int action, int mods) { }
 

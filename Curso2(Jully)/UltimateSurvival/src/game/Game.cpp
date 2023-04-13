@@ -8,14 +8,18 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
+	printf("aaa");
 }
 
+WindowSettings window;
 
 Game::Game() { 
-	/*Window window = Window(
-		800, 800, "MyWindow", framebuffer_size_callback
-	);*/
-	glApi = GLApi::GetInstance(); 
+	window.name = "hola";
+	window.width = 600;
+	window.height = 600;
+	window.windowSizeFunction = framebuffer_size_callback;
+	glApi = GLApi::GetInstance();
+	//glApi = GLApi::GetInstance(); 
 }
 Game::~Game() {}
 

@@ -14,26 +14,18 @@ GLApi::~GLApi()
     }
 }
 
-GLApi* GLApi::GetInstance(Window* window)
+GLApi* GLApi::GetInstance()
 {
     if (_glApi == nullptr)
     {
 		_glApi = new GLApi();
         _glApi->InitGLFWVersion();
 		
-        _glApi->window = window == NULL ? Window(GLAPI_DEF_WINDOW_WIDTH, GLAPI_DEF_WINDOW_HEIGHT, "GLApi") : *window;
+        _glApi->window = Window(WindowSettings());
 		_glApi->SetCurrentWindow(_glApi->window);
 		_glApi->GladLoad();
-		
-		glfwSetFramebufferSizeCallback(_glApi->window.GetGLFWwindow(), _glApi->window.windowSizeFunction);
-		//glfwSetCursorPosCallback(_glApi->window.GetGLFWwindow(), _glApi->window.cursorPositionFunction);
 
-		//glfwSetScrollCallback(_glApi->window.GetGLFWwindow(), _glApi->window.scrollFunction);
-		//glfwSetInputMode(_glApi->window.GetGLFWwindow(), _glApi->window.inputMode, _glApi->window.cursorMode);
-		//glfwSetKeyCallback(_glApi->window.GetGLFWwindow(), _glApi->window.keyFunction);
-
-		//if (_glApi->window.mode3D) GLCall(glEnable(GL_DEPTH_TEST));
-        GLCall(glEnable(GL_DEPTH_TEST));
+        _glApi->window.InitWindow();
     }
 	return _glApi;
 }
@@ -48,7 +40,8 @@ void GLApi::InitGLFWVersion()
 
 void GLApi::GladLoad()
 {
-    gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+        std::cout << "Failed to initialize GLAD" << std::endl;
 }
 
 void GLApi::SetCurrentWindow(Window window)

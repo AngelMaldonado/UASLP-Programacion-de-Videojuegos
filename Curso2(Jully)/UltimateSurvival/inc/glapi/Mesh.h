@@ -81,7 +81,7 @@ const unsigned int CUBE_INDICES[]{
 
 const unsigned int CUBE_NUM_INDICES = 36;
 
-const unsigned int CUBE_BUFFER_SIZE = 11 * 29 * sizeof(float);
+const unsigned int CUBE_BUFFER_SIZE = 8 * 4 * 6 * sizeof(float);
 
 class Mesh {
 public:

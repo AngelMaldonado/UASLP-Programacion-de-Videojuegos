@@ -16,6 +16,10 @@ void Renderer::SetBufferObjects(VertexArrayObject vao, VertexBufferObject vbo, E
 	this->vao = vao;
 	this->vbo = vbo;
 	this->ebo = ebo;
+
+	this->vao.Unbind();
+	this->vbo.Unbind();
+	this->ebo.Unbind();
 }
 
 void Renderer::Render() const
