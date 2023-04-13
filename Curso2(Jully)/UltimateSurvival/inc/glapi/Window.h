@@ -20,6 +20,7 @@ public:
 	int inputMode;
 	int cursorMode;
 	bool mode3D;
+	Renderer renderer;
 
 	Window();
 	Window(int width, int height, std::string name, GLFWframebuffersizefun windowSizeFunction = NULL, GLFWcursorposfun cursorPositionFunction = NULL, GLFWscrollfun scrollFunction = NULL, GLFWkeyfun keyFunction = NULL, int inputMode = GLFW_CURSOR, int value = GLFW_CURSOR_DISABLED, bool mode3D = true);

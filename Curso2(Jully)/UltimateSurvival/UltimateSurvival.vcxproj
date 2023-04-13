@@ -21,15 +21,28 @@
   <ItemGroup>
     <ClCompile Include="src\game\Game.cpp" />
     <ClCompile Include="src\game\Scene.cpp" />
+    <ClCompile Include="src\glapi\Drawable.cpp" />
+    <ClCompile Include="src\glapi\ElementBufferObject.cpp" />
     <ClCompile Include="src\glapi\glad.c" />
     <ClCompile Include="src\glapi\GLApi.cpp" />
+    <ClCompile Include="src\glapi\Renderer.cpp" />
+    <ClCompile Include="src\glapi\VertexArrayObject.cpp" />
+    <ClCompile Include="src\glapi\VertexBufferObject.cpp" />
     <ClCompile Include="src\glapi\Window.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\game\Game.h" />
     <ClInclude Include="inc\game\Scene.h" />
+    <ClInclude Include="inc\glapi\Drawable.h" />
+    <ClInclude Include="inc\glapi\ElementBufferObject.h" />
     <ClInclude Include="inc\glapi\GLApi.h" />
+    <ClInclude Include="inc\glapi\Mesh.h" />
+    <ClInclude Include="inc\glapi\Model.h" />
+    <ClInclude Include="inc\glapi\Renderer.h" />
+    <ClInclude Include="inc\glapi\VertexArrayObject.h" />
+    <ClInclude Include="inc\glapi\VertexBufferLayout.h" />
+    <ClInclude Include="inc\glapi\VertexBufferObject.h" />
     <ClInclude Include="inc\glapi\Window.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

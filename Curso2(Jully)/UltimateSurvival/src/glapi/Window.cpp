@@ -26,6 +26,11 @@ void Window::SetSize(int width, int height)
     glViewport(0, 0, _width, _height);
 }
 
+void Render()
+{
+	//GLCall(glDrawElements(GL_TRIANGLES, GLApi::GetInstance()->))
+}
+
 bool Window::WindowIsOpen()
 {
 	return !glfwWindowShouldClose(_window);

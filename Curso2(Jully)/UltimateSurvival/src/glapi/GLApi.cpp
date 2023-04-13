@@ -26,13 +26,14 @@ GLApi* GLApi::GetInstance(Window* window)
 		_glApi->GladLoad();
 		
 		glfwSetFramebufferSizeCallback(_glApi->window.GetGLFWwindow(), _glApi->window.windowSizeFunction);
-		glfwSetCursorPosCallback(_glApi->window.GetGLFWwindow(), _glApi->window.cursorPositionFunction);
+		//glfwSetCursorPosCallback(_glApi->window.GetGLFWwindow(), _glApi->window.cursorPositionFunction);
 
-		glfwSetScrollCallback(_glApi->window.GetGLFWwindow(), _glApi->window.scrollFunction);
-		glfwSetInputMode(_glApi->window.GetGLFWwindow(), _glApi->window.inputMode, _glApi->window.cursorMode);
-		glfwSetKeyCallback(_glApi->window.GetGLFWwindow(), _glApi->window.keyFunction);
+		//glfwSetScrollCallback(_glApi->window.GetGLFWwindow(), _glApi->window.scrollFunction);
+		//glfwSetInputMode(_glApi->window.GetGLFWwindow(), _glApi->window.inputMode, _glApi->window.cursorMode);
+		//glfwSetKeyCallback(_glApi->window.GetGLFWwindow(), _glApi->window.keyFunction);
 
-		if (_glApi->window.mode3D) GLCall(glEnable(GL_DEPTH_TEST));
+		//if (_glApi->window.mode3D) GLCall(glEnable(GL_DEPTH_TEST));
+        GLCall(glEnable(GL_DEPTH_TEST));
     }
 	return _glApi;
 }

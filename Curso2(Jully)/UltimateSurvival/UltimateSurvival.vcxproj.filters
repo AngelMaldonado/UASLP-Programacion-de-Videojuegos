@@ -45,6 +45,21 @@
     <ClCompile Include="src\glapi\glad.c">
       <Filter>Source Files\glapi</Filter>
     </ClCompile>
+    <ClCompile Include="src\glapi\Drawable.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glapi\VertexArrayObject.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glapi\VertexBufferObject.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glapi\Renderer.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
+    <ClCompile Include="src\glapi\ElementBufferObject.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\game\Game.h">
@@ -57,6 +72,30 @@
       <Filter>Header Files\glapi</Filter>
     </ClInclude>
     <ClInclude Include="inc\glapi\Window.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\Drawable.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\VertexArrayObject.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\VertexBufferObject.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\VertexBufferLayout.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\Mesh.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\Model.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\Renderer.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\glapi\ElementBufferObject.h">
       <Filter>Header Files\glapi</Filter>
     </ClInclude>
   </ItemGroup>
