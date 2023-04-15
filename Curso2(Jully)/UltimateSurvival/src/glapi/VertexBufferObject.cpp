@@ -7,9 +7,9 @@ VertexBufferObject::VertexBufferObject(const void* buffer, unsigned int size)
 	GLCall(glBufferData(GL_ARRAY_BUFFER, size, buffer, GL_STATIC_DRAW));
 }
 
-VertexBufferObject::~VertexBufferObject()
+void VertexBufferObject::Dispose()
 {
-	//GLCall(glDeleteBuffers(1, &idDataBuffer));
+	GLCall(glDeleteBuffers(1, &idDataBuffer));
 }
 
 void VertexBufferObject::Bind() const

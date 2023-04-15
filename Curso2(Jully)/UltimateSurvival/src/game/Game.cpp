@@ -1,14 +1,8 @@
 #include <game/Game.h>
 
-/**
- * TODO: Be able to create a glApi instance given a defined window, the error is in the window attribute
- * of GLApi
- */
-
 void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
     glViewport(0, 0, width, height);
-	printf("aaa");
 }
 
 WindowSettings window;
@@ -19,17 +13,21 @@ Game::Game() {
 	window.height = 600;
 	window.windowSizeFunction = framebuffer_size_callback;
 	glApi = GLApi::GetInstance();
-	//glApi = GLApi::GetInstance(); 
 }
 Game::~Game() {}
 
 void Game::Run()
 {
+	glApi->Init(window);
+
+	Shader shader("vertexShader.vs", "fragmenShader.fs");
+
 	VertexBufferLayout bufferLayout;
 	VertexArrayObject vao = VertexArrayObject(true);
 	VertexBufferObject vbo = VertexBufferObject(CUBE_BUFFER, CUBE_BUFFER_SIZE);
 	ElementBufferObject ebo = ElementBufferObject(CUBE_INDICES, CUBE_NUM_INDICES);
 
+	bufferLayout.Push<float>(3);
 	bufferLayout.Push<float>(3);
 	bufferLayout.Push<float>(3);
 	bufferLayout.Push<float>(2);
@@ -39,6 +37,25 @@ void Game::Run()
 
 	while (glApi->window.WindowIsOpen())
 	{
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        /**
+        * Limpieza del buffer de profundiad
+        */
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+		shader.Bind();
+        glm::mat4 model = glm::mat4(1.0f);
+        model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+
+        glm::mat4 view = glm::mat4(1.0f);
+        view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+
+        glm::mat4 projection = glm::mat4(1.0f);
+        projection = glm::perspective(glm::radians(45.0f), (float)window.width / (float)window.height, 0.1f, 100.0f);
+
+        shader.SetUniform4matf("model", model);
+        shader.SetUniform4matf("view", view);
+        shader.SetUniform4matf("projection", projection);
 		glApi->window.renderer.Render();
 		glfwSwapBuffers(glApi->window.GetGLFWwindow());
 		glfwPollEvents();

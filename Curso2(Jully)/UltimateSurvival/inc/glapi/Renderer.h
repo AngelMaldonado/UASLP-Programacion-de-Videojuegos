@@ -6,7 +6,7 @@ public:
 	Renderer(VertexArrayObject vao, VertexBufferObject vbo, ElementBufferObject ebo)
 		: vao(vao), vbo(vbo), ebo(ebo) {}
 
-	~Renderer();
+	~Renderer() {}
 
 	/**
 	 * @brief Function to clear the color buffer
@@ -14,6 +14,8 @@ public:
 	void ClearBuffer() const;
 
 	void SetBufferObjects(VertexArrayObject vao, VertexBufferObject vbo, ElementBufferObject ebo);
+
+	void Dispose();
 
 	/**
 	 * @brief Function to render current VertexArrayObject and VertexBufferObject

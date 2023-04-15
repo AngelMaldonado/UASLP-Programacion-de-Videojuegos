@@ -8,9 +8,7 @@ Window::Window(WindowSettings windowSettings)
 	_window = glfwCreateWindow(_windowSettings.width, _windowSettings.height, _windowSettings.name.c_str(), NULL, NULL);
 }
 
-Window::~Window() {}
-
-void Window::InitWindow()
+void Window::Prepare()
 {
 	glfwSetFramebufferSizeCallback(_window, _windowSettings.windowSizeFunction);
 	glfwSetCursorPosCallback(_window, _windowSettings.cursorPositionFunction);

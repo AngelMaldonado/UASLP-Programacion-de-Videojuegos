@@ -19,7 +19,9 @@ public:
 	/**
 	 * @brief Destructor of VertexArrayObject instance, it deletes the buffer with idArrayBuffer value
 	 */
-	~VertexArrayObject();
+	~VertexArrayObject() {}
+
+	void Dispose();
 
 	/**
 	 * @brief Function to add a buffer (data) to the VertexArrayObject for later bindings and renderings

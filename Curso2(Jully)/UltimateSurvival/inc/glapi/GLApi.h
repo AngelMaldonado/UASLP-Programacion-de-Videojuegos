@@ -15,6 +15,9 @@
 #include <GLFW/glfw3.h>
 #include <iostream>
 #include <vector>
+#include <unordered_map>
+#include <fstream>
+#include <sstream>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -33,6 +36,7 @@
 #include <glapi/Model.h>
 #include <glapi/Renderer.h>
 #include <glapi/Window.h>
+#include <glapi/Shader.h>
 
 #define GLAPI_GLFW_VERSION 3
 
@@ -57,6 +61,11 @@ public:
 	 * Obtains the current and only instance of GLApi
 	 */
 	static GLApi* GetInstance();
+
+	/**
+	 * Initialize GLFW, the main Window, and GLAD
+	 */ 
+	void Init(WindowSettings windowSettings = WindowSettings());
 
 	/**
 	 * Frees current GLApi instance

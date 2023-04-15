@@ -1,6 +1,7 @@
 #include <glapi/GLApi.h>
 
 VertexArrayObject::VertexArrayObject(bool generateArrayBuffer)
+	: idArrayBuffer(0)
 {
 	if (generateArrayBuffer)
 	{
@@ -9,9 +10,9 @@ VertexArrayObject::VertexArrayObject(bool generateArrayBuffer)
 	}
 }
 
-VertexArrayObject::~VertexArrayObject()
+void VertexArrayObject::Dispose()
 {
-	//GLCall(glDeleteVertexArrays(1, &idArrayBuffer));
+	 GLCall(glDeleteVertexArrays(1, &idArrayBuffer));
 }
 
 void VertexArrayObject::AddBuffer(const VertexBufferObject& buffer, const VertexBufferLayout& layout)

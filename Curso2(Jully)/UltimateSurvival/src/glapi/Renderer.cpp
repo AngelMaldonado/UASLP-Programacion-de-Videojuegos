@@ -1,14 +1,15 @@
 #include <glapi/GLApi.h>
 
-Renderer::~Renderer()
+void Renderer::Dispose()
 {
-	//vao.~VertexArrayObject();
-	//vbo.~VertexBufferObject();
+	vao.Dispose();
+	vbo.Dispose();
+	ebo.Dispose();
 }
 
 void Renderer::ClearBuffer() const
 {
-	GLCall(glClear(GL_COLOR_BUFFER_BIT));
+	GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
 }
 
 void Renderer::SetBufferObjects(VertexArrayObject vao, VertexBufferObject vbo, ElementBufferObject ebo)

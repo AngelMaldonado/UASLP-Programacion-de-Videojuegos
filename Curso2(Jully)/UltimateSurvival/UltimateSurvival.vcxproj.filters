@@ -60,6 +60,9 @@
     <ClCompile Include="src\glapi\ElementBufferObject.cpp">
       <Filter>Source Files\glapi</Filter>
     </ClCompile>
+    <ClCompile Include="src\glapi\Shader.cpp">
+      <Filter>Source Files\glapi</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\game\Game.h">
@@ -98,5 +101,16 @@
     <ClInclude Include="inc\glapi\ElementBufferObject.h">
       <Filter>Header Files\glapi</Filter>
     </ClInclude>
+    <ClInclude Include="inc\glapi\Shader.h">
+      <Filter>Header Files\glapi</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="fragmenShader.fs">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="vertexShader.vs">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

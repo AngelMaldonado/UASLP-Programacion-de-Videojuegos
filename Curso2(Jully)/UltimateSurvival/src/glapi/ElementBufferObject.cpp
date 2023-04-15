@@ -10,9 +10,9 @@ ElementBufferObject::ElementBufferObject(const unsigned int* buffer, unsigned in
 	GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices * sizeof(unsigned int), buffer, GL_STATIC_DRAW));
 }
 
-ElementBufferObject::~ElementBufferObject()
+void ElementBufferObject::Dispose()
 {
-	//GLCall(glDeleteBuffers(1, &idElementBuffer));
+	GLCall(glDeleteBuffers(1, &idElementBuffer));
 }
 
 void ElementBufferObject::Bind() const

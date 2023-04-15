@@ -16,12 +16,14 @@ public:
 	 * @return VertexBufferObject instance
 	 */
 	VertexBufferObject(const void* buffer, unsigned int size);
-	
+
 	/**
 	 * @brief Destructor of VertexBufferObject instance, it deletes the buffer with idDataBuffer value
 	 */
-	~VertexBufferObject();
+	~VertexBufferObject() {}
 
+	void Dispose();
+	
 	/**
 	 * @brief Function to bind the buffer
 	 */

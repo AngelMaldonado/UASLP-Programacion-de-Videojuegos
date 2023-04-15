@@ -14,7 +14,7 @@ private:
 	 */
 	unsigned int numIndices;
 public:
-	ElementBufferObject() {}
+	ElementBufferObject() : idElementBuffer(0), numIndices(0) {}
 	/**
 	 * @brief Constructor of Element Buffer Object
 	 * @param buffer Buffer where the indices are stored
@@ -22,7 +22,8 @@ public:
 	 * @return Instance of Element Buffer Object
 	 */
 	ElementBufferObject(const unsigned int* buffer, unsigned int numIndices);
-	~ElementBufferObject();
+	~ElementBufferObject() {}
+	void Dispose();
 
 	void Bind() const;
 	void Unbind() const;

@@ -48,10 +48,10 @@ public:
 	Window() {}
 
 	Window(WindowSettings windowSettings);
-	~Window();
+	~Window() {}
 	GLFWwindow* GetGLFWwindow();
 	void SetSize(int width, int height);
-	void InitWindow();
+	void Prepare();
 	bool WindowIsOpen();
 	void CloseWindow();
 

@@ -11,23 +11,27 @@ GLApi::~GLApi()
     if (_glApi != nullptr)
     {
         glfwTerminate();
+        _glApi->window.renderer.Dispose();
     }
 }
 
 GLApi* GLApi::GetInstance()
 {
     if (_glApi == nullptr)
-    {
 		_glApi = new GLApi();
-        _glApi->InitGLFWVersion();
-		
-        _glApi->window = Window(WindowSettings());
-		_glApi->SetCurrentWindow(_glApi->window);
-		_glApi->GladLoad();
-
-        _glApi->window.InitWindow();
-    }
 	return _glApi;
+}
+
+void GLApi::Init(WindowSettings windowSettings)
+{
+    if (_glApi != nullptr)
+    {
+        _glApi->InitGLFWVersion();
+        _glApi->window = Window(windowSettings);
+        _glApi->SetCurrentWindow(_glApi->window);
+        _glApi->GladLoad();
+        _glApi->window.Prepare();
+    }
 }
 
 void GLApi::InitGLFWVersion()
