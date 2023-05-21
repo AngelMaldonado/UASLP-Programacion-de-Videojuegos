@@ -14,7 +14,11 @@ Game::Game() {
 	window.windowSizeFunction = framebuffer_size_callback;
 	glApi = GLApi::GetInstance();
 }
-Game::~Game() {}
+
+Game::~Game()
+{
+	glApi->~GLApi();
+}
 
 void Game::Run()
 {
@@ -60,6 +64,5 @@ void Game::Run()
 		glfwSwapBuffers(glApi->window.GetGLFWwindow());
 		glfwPollEvents();
 	}
-	glApi->~GLApi();
 }
 
