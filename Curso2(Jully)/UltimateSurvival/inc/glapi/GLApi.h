@@ -27,10 +27,12 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include <glapi/stb_image.h>
 #include <glapi/VertexBufferObject.h>
 #include <glapi/VertexBufferLayout.h>
 #include <glapi/VertexArrayObject.h>
 #include <glapi/ElementBufferObject.h>
+#include <glapi/Texture.h>
 #include <glapi/Drawable.h>
 #include <glapi/Mesh.h>
 #include <glapi/Model.h>

@@ -25,8 +25,12 @@
     <ClCompile Include="src\glapi\ElementBufferObject.cpp" />
     <ClCompile Include="src\glapi\glad.c" />
     <ClCompile Include="src\glapi\GLApi.cpp" />
+    <ClCompile Include="src\glapi\Mesh.cpp" />
+    <ClCompile Include="src\glapi\Model.cpp" />
     <ClCompile Include="src\glapi\Renderer.cpp" />
     <ClCompile Include="src\glapi\Shader.cpp" />
+    <ClCompile Include="src\glapi\stb_image.cpp" />
+    <ClCompile Include="src\glapi\Texture.cpp" />
     <ClCompile Include="src\glapi\VertexArrayObject.cpp" />
     <ClCompile Include="src\glapi\VertexBufferObject.cpp" />
     <ClCompile Include="src\glapi\Window.cpp" />
@@ -42,6 +46,8 @@
     <ClInclude Include="inc\glapi\Model.h" />
     <ClInclude Include="inc\glapi\Renderer.h" />
     <ClInclude Include="inc\glapi\Shader.h" />
+    <ClInclude Include="inc\glapi\stb_image.h" />
+    <ClInclude Include="inc\glapi\Texture.h" />
     <ClInclude Include="inc\glapi\VertexArrayObject.h" />
     <ClInclude Include="inc\glapi\VertexBufferLayout.h" />
     <ClInclude Include="inc\glapi\VertexBufferObject.h" />

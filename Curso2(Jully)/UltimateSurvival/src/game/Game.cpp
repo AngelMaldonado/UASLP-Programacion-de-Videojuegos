@@ -25,17 +25,8 @@ void Game::Run()
 	glApi->Init(window);
 
 	Shader shader("vertexShader.vs", "fragmenShader.fs");
-
-	VertexBufferLayout bufferLayout;
-	VertexArrayObject vao = VertexArrayObject(true);
-	VertexBufferObject vbo = VertexBufferObject(CUBE_BUFFER, CUBE_BUFFER_SIZE);
-	ElementBufferObject ebo = ElementBufferObject(CUBE_INDICES, CUBE_NUM_INDICES);
-
-	bufferLayout.Push<float>(3);
-	bufferLayout.Push<float>(3);
-	bufferLayout.Push<float>(3);
-	bufferLayout.Push<float>(2);
-	vao.AddBuffer(vbo, bufferLayout);
+	Model model("res/models/Comida/apple.fbx");
+	VertexArrayObject vao;
 
 	glApi->window.renderer.SetBufferObjects(vao, vbo, ebo);
 

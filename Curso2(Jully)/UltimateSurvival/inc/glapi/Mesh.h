@@ -13,18 +13,11 @@ struct Vertex
 {
 	glm::vec3 position;
 	glm::vec3 normal;
+	glm::vec3 tangent;
+	glm::vec3 bitangent;
 	glm::vec3 color;
 	glm::vec2 texCoords;
-};
-
-/**
- *	Structure that defines texture data
- */
-struct Texture
-{
-	unsigned int id;
-	std::string type;
-	std::string path;
+	float useDiffuseTexture;
 };
 
 /**
@@ -65,21 +58,17 @@ const unsigned int CUBE_BUFFER_SIZE = 8 * 11 * sizeof(float);
 
 class Mesh {
 public:
-	
-	const std::vector<Vertex> vertices;
-	const std::vector<unsigned int> indices;
-	const std::vector<Texture> textures;
+	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	Mesh(aiMesh* mesh, const aiScene* scene, std::vector<Texture> textures);
 
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures)
-		: vertices(vertices), indices(indices), textures(textures)
-	{
-		meshBufferLayout.Push<float>(3);	// Vertex coords
-		meshBufferLayout.Push<float>(3);	// Vertex normals
-		meshBufferLayout.Push<float>(3);	// Vertex color
-		meshBufferLayout.Push<float>(2);	// Vertex texture coords
-	}
 	inline const VertexBufferLayout GetMeshBufferLayout() const& { return meshBufferLayout; }
 private:
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
+	Material material;
+
 	VertexBufferLayout meshBufferLayout;
+	Material LoadMaterial(aiMaterial* material);
 };
 
