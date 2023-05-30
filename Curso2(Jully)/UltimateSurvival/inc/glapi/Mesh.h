@@ -59,7 +59,7 @@ const unsigned int CUBE_BUFFER_SIZE = 8 * 11 * sizeof(float);
 class Mesh {
 public:
 	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
-	Mesh(aiMesh* mesh, const aiScene* scene, std::vector<Texture> textures);
+	~Mesh() {}
 
 	inline const VertexBufferLayout GetMeshBufferLayout() const& { return meshBufferLayout; }
 private:

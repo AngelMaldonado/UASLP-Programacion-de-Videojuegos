@@ -33,12 +33,12 @@
 #include <glapi/VertexArrayObject.h>
 #include <glapi/ElementBufferObject.h>
 #include <glapi/Texture.h>
+#include <glapi/Shader.h>
 #include <glapi/Drawable.h>
 #include <glapi/Mesh.h>
 #include <glapi/Model.h>
 #include <glapi/Renderer.h>
 #include <glapi/Window.h>
-#include <glapi/Shader.h>
 
 #define GLAPI_GLFW_VERSION 3
 

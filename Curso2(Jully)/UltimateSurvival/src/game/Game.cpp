@@ -26,16 +26,14 @@ void Game::Run()
 
 	Shader shader("vertexShader.vs", "fragmenShader.fs");
 	Model model("res/models/Comida/apple.fbx");
-	VertexArrayObject vao;
+	//VertexArrayObject vao;
 
-	glApi->window.renderer.SetBufferObjects(vao, vbo, ebo);
+	//glApi->window.renderer.SetBufferObjects(vao, vbo, ebo);
 
 	while (glApi->window.WindowIsOpen())
 	{
+		/*
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-        /**
-        * Limpieza del buffer de profundiad
-        */
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader.Bind();
@@ -52,6 +50,7 @@ void Game::Run()
         shader.SetUniform4matf("view", view);
         shader.SetUniform4matf("projection", projection);
 		glApi->window.renderer.Render();
+		*/
 		glfwSwapBuffers(glApi->window.GetGLFWwindow());
 		glfwPollEvents();
 	}

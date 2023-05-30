@@ -5,15 +5,19 @@
 class Model
 {
 public:
-	std::vector<Texture> textures_loaded;
 	std::vector<Mesh> meshes;
-	std::string directory;
-	bool gammaCorrection;
+	const std::string path;
+	const bool gammaCorrection;
 
-	Model(std::string const& path, bool gamma = false) : gammaCorrection(gamma);
+	Model(std::string const& path, bool gamma = false);
 	void Draw(Shader& shader);
 
 private:
+	void LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	std::vector<Texture> loadedTextures;
+
 	void ProcessNode(aiNode* node, const aiScene* scene);
-	std::vector<Texture> LoadMaterialTextures(aiMaterial* material, aiTextureType type, std::string typeName);
+	Mesh ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	std::vector<Texture> LoadTextures(aiMaterial* material, aiTextureType type);
 };
+
